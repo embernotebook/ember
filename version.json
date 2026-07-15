@@ -1,0 +1,5 @@
+{
+  "version": "0.50.6",
+  "url": "https://embernotebook.com",
+  "notes": "Ember now installs from a DMG with a double click. Locked folders stay private under every spelling of their name, and the whole app fits a 13 inch screen."
+}
