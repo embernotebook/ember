@@ -7,6 +7,12 @@
 <p align="center"><b>A private AI notebook for your Mac. You write, Ember remembers.</b></p>
 
 <p align="center">
+  <a href="https://embernotebook.com"><b>Website</b></a>
+  &nbsp;&middot;&nbsp;
+  <a href="https://github.com/MrNabeel/ember-notebook"><b>About the maker</b></a>
+</p>
+
+<p align="center">
   <img src="assets/hero-poster.jpg" width="820" alt="Ember running on a Mac">
 </p>
 
