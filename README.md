@@ -7,7 +7,7 @@
 <p align="center"><b>A private AI notebook for your Mac. You write, Ember remembers.</b></p>
 
 <p align="center">
-  <a href="https://embernotebook.com"><b>Website</b></a>
+  <a href="https://embernotebook.github.io/ember/"><b>Website</b></a>
   &nbsp;&middot;&nbsp;
   <a href="https://github.com/MrNabeel/ember-notebook"><b>About the maker</b></a>
 </p>
@@ -77,7 +77,7 @@ Built for Apple Silicon Macs (M1 and later). Signed and notarized with Apple, so
 
 ## Website
 
-[embernotebook.com](https://embernotebook.com)
+[embernotebook.com](https://embernotebook.github.io/ember/)
 
 ## A note from the maker
 
