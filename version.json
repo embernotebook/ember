@@ -1,5 +1,7 @@
 {
-  "version": "0.50.6",
+  "version": "0.51.0",
   "url": "https://embernotebook.com",
-  "notes": "Ember now installs from a DMG with a double click. Locked folders stay private under every spelling of their name, and the whole app fits a 13 inch screen."
+  "notes": "Updating is now one click — Ember downloads the new version, checks Apple's seal on it, and restarts right where you were.",
+  "dmg": "https://github.com/embernotebook/ember/releases/latest/download/Ember.dmg",
+  "sha256": "b816c27beb26b6f507ad06238c3e9a6d5d0b02ab7287b19627c9a9d924805058"
 }
