@@ -1,7 +1,7 @@
 {
-  "version": "0.52.0",
+  "version": "0.53.0",
   "url": "https://embernotebook.com",
-  "notes": "Name, theme, and lock your terminals — and switch between them from the keyboard. One click updates you.",
+  "notes": "Your terminal starts working in seconds — it already knows your folder and your canvas. Gemini runs clean, tabs get icons and colors, and Ember warns before you close over live work.",
   "dmg": "https://github.com/embernotebook/ember/releases/latest/download/Ember.dmg",
-  "sha256": "9d459c372cee6120ffee643439252d847880b942f4a082df4e303a4a44f47885"
+  "sha256": "c21012787db54c884bf68427f86e172424bd05b9e50e428556692fdddf362e31"
 }
