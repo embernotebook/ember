@@ -1,7 +1,7 @@
 {
-  "version": "0.53.2",
+  "version": "0.53.3",
   "url": "https://embernotebook.com",
-  "notes": "Honest model names: the menu, Settings, and the terminal now agree on which AI is answering.",
+  "notes": "Under-the-hood reorganization. Nothing changes for you.",
   "dmg": "https://github.com/embernotebook/ember/releases/latest/download/Ember.dmg",
-  "sha256": "740414b9a392fbaf5aee9264edf52f8f2eb1214a75a3d54551faa371fe0f827b"
+  "sha256": "5a352e8659bac74f247c8078158d1f328bee0026f94c4ad199afc1a2a16754f9"
 }
