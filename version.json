@@ -1,7 +1,7 @@
 {
-  "version": "0.53.3",
+  "version": "0.54.0",
   "url": "https://embernotebook.com",
-  "notes": "Under-the-hood reorganization. Nothing changes for you.",
+  "notes": "Undo works everywhere on the canvas now, and AI flowcharts come out clean.",
   "dmg": "https://github.com/embernotebook/ember/releases/latest/download/Ember.dmg",
-  "sha256": "5a352e8659bac74f247c8078158d1f328bee0026f94c4ad199afc1a2a16754f9"
+  "sha256": "ce73bf1846a8d28095827203e84f55355c057ad0afb2fa3271240c9a430d169c"
 }
