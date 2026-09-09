@@ -1,7 +1,7 @@
 {
-  "version": "0.55.0",
+  "version": "0.54.0",
   "url": "https://embernotebook.com",
-  "notes": "Links open in your browser, pictures show up anywhere in your vault, and an open note follows outside edits.",
+  "notes": "Undo works everywhere on the canvas now, and AI flowcharts come out clean.",
   "dmg": "https://github.com/embernotebook/ember/releases/latest/download/Ember.dmg",
-  "sha256": "8f6c59c44842ba6e1e069131056124b7e4a4de45f3918bac3f803384fee9515a"
+  "sha256": "ce73bf1846a8d28095827203e84f55355c057ad0afb2fa3271240c9a430d169c"
 }
