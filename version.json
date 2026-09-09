@@ -1,7 +1,7 @@
 {
-  "version": "0.54.0",
+  "version": "0.55.1",
   "url": "https://embernotebook.com",
-  "notes": "Undo works everywhere on the canvas now, and AI flowcharts come out clean.",
+  "notes": "Fixes Ember 0.55.0 not opening. Links open in your browser, pictures show up anywhere, and notes follow outside edits.",
   "dmg": "https://github.com/embernotebook/ember/releases/latest/download/Ember.dmg",
-  "sha256": "ce73bf1846a8d28095827203e84f55355c057ad0afb2fa3271240c9a430d169c"
+  "sha256": "53cacaef9d84d755dc756c5d47a3e9cbcbc4bab2e19de75f7f303d861ecf54af"
 }
