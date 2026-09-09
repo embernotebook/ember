@@ -1,7 +1,7 @@
 {
-  "version": "0.55.1",
+  "version": "0.55.2",
   "url": "https://embernotebook.com",
-  "notes": "Fixes Ember 0.55.0 not opening. Links open in your browser, pictures show up anywhere, and notes follow outside edits.",
-  "dmg": "https://github.com/embernotebook/ember/releases/latest/download/Ember.dmg",
-  "sha256": "53cacaef9d84d755dc756c5d47a3e9cbcbc4bab2e19de75f7f303d861ecf54af"
+  "notes": "The terminal keeps your place instead of jumping to the top, and a screenshot dropped anywhere on a note lands right there. ⌘T opens a new terminal tab beside the one you are in, the fold arrows in notes are bigger, and the Gemini names in Settings are current.",
+  "dmg": "https://github.com/embernotebook/ember/releases/download/v0.55.2/Ember.dmg",
+  "sha256": "015a4737d4470c3e322317ec01d7e75af4b889d565fb5932e894307711b66a47"
 }
