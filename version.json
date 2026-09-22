@@ -1,7 +1,7 @@
 {
-  "version": "0.56.0",
+  "version": "0.57.0",
   "url": "https://embernotebook.com",
-  "notes": "The terminal no longer hides the bottom of your notes and folders, and it never grows taller than the window. Dragging a folder onto the terminal types its path, and Ember's messages now say exactly what happened.",
-  "dmg": "https://github.com/embernotebook/ember/releases/download/v0.56.0/Ember.dmg",
-  "sha256": "1ece3ac18a5aab6d163359bde4a1540818c3f077fcc8b71deb2eaa39736b9e38"
+  "notes": "Long notes respond faster when you press Enter, a pasted screenshot shows up as a picture right away, and your cursor stays put after it uploads.",
+  "dmg": "https://github.com/embernotebook/ember/releases/download/v0.57.0/Ember.dmg",
+  "sha256": "0574c0421d289e0369cd1e536ed8a6d534b86164be4fe25c61f74864b0a69268"
 }
