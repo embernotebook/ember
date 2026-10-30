@@ -1,7 +1,7 @@
 {
-  "version": "0.57.0",
+  "version": "0.59.0",
   "url": "https://embernotebook.com",
-  "notes": "Long notes respond faster when you press Enter, a pasted screenshot shows up as a picture right away, and your cursor stays put after it uploads.",
-  "dmg": "https://github.com/embernotebook/ember/releases/download/v0.57.0/Ember.dmg",
-  "sha256": "0574c0421d289e0369cd1e536ed8a6d534b86164be4fe25c61f74864b0a69268"
+  "notes": "A new writing room with the AI inside it. Press Space on an empty line and it writes there, the chat shows every change it makes with Undo, and every chat is kept as a note.",
+  "dmg": "https://github.com/embernotebook/ember/releases/download/v0.59.0/Ember.dmg",
+  "sha256": "c74944041a68ee7134c5db86eec1a0645dacfbc55550a27b1ef24387a06b2a46"
 }
