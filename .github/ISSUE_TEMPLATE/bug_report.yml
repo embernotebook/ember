@@ -1,0 +1,40 @@
+name: Something is not working
+description: Tell us what happened, so it can be fixed.
+labels: ["bug"]
+body:
+  - type: markdown
+    attributes:
+      value: "Thank you for taking the time. Issues are public, so please never paste your notes, a key or a password here."
+  - type: textarea
+    id: what
+    attributes:
+      label: What happened?
+      description: What you did, what you expected, and what happened instead.
+    validations:
+      required: true
+  - type: textarea
+    id: steps
+    attributes:
+      label: How to see it again
+      placeholder: |
+        1. Open a note
+        2. ...
+        3. ...
+  - type: input
+    id: version
+    attributes:
+      label: Ember version
+      description: It is in Settings.
+      placeholder: "0.59.0"
+    validations:
+      required: true
+  - type: input
+    id: mac
+    attributes:
+      label: macOS version and Mac
+      placeholder: "macOS 15, MacBook Air with M2"
+  - type: textarea
+    id: pictures
+    attributes:
+      label: Screenshots
+      description: Optional. Drag pictures here.

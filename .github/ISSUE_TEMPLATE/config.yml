@@ -1,0 +1,8 @@
+blank_issues_enabled: true
+contact_links:
+  - name: Something private, or a security problem
+    url: https://github.com/embernotebook/ember/blob/main/SUPPORT.md#rather-write
+    about: Write to Ember by email instead of opening a public issue.
+  - name: Privacy
+    url: https://embernotebook.com/privacy.html
+    about: What leaves your Mac, and when.

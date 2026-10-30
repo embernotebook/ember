@@ -2,84 +2,104 @@
   <img src="assets/ember-logo.png" width="96" alt="Ember">
 </p>
 
-<h1 align="center">Ember</h1>
+<h1 align="center">Ember Notebook</h1>
 
-<p align="center"><b>A private AI notebook for your Mac. You write, Ember remembers.</b></p>
+<p align="center"><b>A memory notebook for all your AI agents.</b></p>
+
+<p align="center">Ember is a notebook of plain files on your Mac. The AI you sign in with reads the notes you hand it, and writes there.</p>
 
 <p align="center">
-  <a href="https://embernotebook.github.io/ember/"><b>Website</b></a>
+  <a href="https://github.com/embernotebook/ember/releases/latest/download/Ember.dmg"><b>Download for Mac</b></a>
   &nbsp;&middot;&nbsp;
-  <a href="https://github.com/MrNabeel/ember-notebook"><b>About the maker</b></a>
+  <a href="https://embernotebook.com"><b>Website</b></a>
   &nbsp;&middot;&nbsp;
-  <a href="https://www.youtube.com/@embernotebook"><b>YouTube</b></a>
+  <a href="https://github.com/embernotebook/ember/releases/latest"><b>What's new</b></a>
+  &nbsp;&middot;&nbsp;
+  <a href="https://embernotebook.com/privacy.html"><b>Privacy</b></a>
+  &nbsp;&middot;&nbsp;
+  <a href="SUPPORT.md"><b>Report a problem</b></a>
 </p>
 
 <p align="center">
-  <img src="assets/hero-poster.jpg" width="820" alt="Ember running on a Mac">
+  <img src="assets/hero-grid-light.jpg" width="820" alt="Your favorite AI runs the way it runs, in a tab beside your notes">
 </p>
 
-Ember is a notebook for your Mac with AI built in. Everything you tell it becomes a plain file on your Mac. Teach it something once and it remembers for good. Bring any AI you like, from Claude to one that runs offline.
+<p align="center"><sub>For Apple Silicon Macs (M1 and later) on macOS 14 or later. Free.</sub></p>
 
-## What makes Ember
+**Contents:** [What Ember is](#what-ember-is) &middot; [Pictures](#pictures) &middot; [Install](#install) &middot; [How it works](#how-it-works) &middot; [Privacy](#privacy) &middot; [New in 0.59](#new-in-059) &middot; [Coming next](#coming-next) &middot; [Support](#support) &middot; [License](#license)
 
-- **Private.** Your notes are plain Markdown files on your own Mac. Lock a folder and the AI goes blind to it.
-- **Local.** It runs on your machine. Point it at a local model and it keeps working with the Wi-Fi off.
-- **Any AI.** Sign in with Claude, ChatGPT, or Google, or stay fully offline. The AI is a guest. The memory is yours.
-- **Just files.** Everything Ember keeps is a plain file you can open, back up, or read ten years from now. You are never locked in.
+## What Ember is
 
-## Bring your own AI
+A notebook of plain Markdown files, in a folder you choose on your Mac. The AI you sign in with reads the notes you hand it and writes there: it changes a note when you ask, and shows you what changed.
 
-Ember does not sell you an AI. You bring the one you already have. Sign in with Claude, ChatGPT, or Google, or run a local model on your own Mac with no account at all. Switch whenever you want. You are not locked into one company's AI.
+Your favorite AI runs the way it runs, in a tab beside your notes.
 
-<p align="center">
-  <img src="assets/byoai.jpg" width="820" alt="Choose any AI, from Claude to Gemini to a local model">
-</p>
+## Pictures
 
-## A canvas and a mind map
+<table>
+  <tr>
+    <td align="center" width="50%"><img src="assets/chat-light.jpg" alt="A chat can sit beside the note you are writing"><br><sub>A chat can sit beside the note you are writing</sub></td>
+    <td align="center" width="50%"><img src="assets/cl-drag-light.jpg" alt="Drag a note into the chat and ask about it. Ember sends that note with your question."><br><sub>Drag a note into the chat and ask about it. Ember sends that note with your question.</sub></td>
+  </tr>
+  <tr>
+    <td align="center" width="50%"><img src="assets/room-light.jpg" alt="An eating plan as Ember draws it: a goal callout, a meals table, headings and training ticks."><br><sub>An eating plan as Ember draws it: a goal callout, a meals table, headings and training ticks.</sub></td>
+    <td align="center" width="50%"><img src="assets/canvas-kiln-light.jpg" alt="Ember's open canvas with note cards, folder cards and its mind map"><br><sub>Ember's open canvas with note cards, folder cards and its mind map</sub></td>
+  </tr>
+</table>
 
-See your notes the way your head actually works. Lay them out on an open canvas, connect them into a mind map, and let Ember arrange them for you. Ask it something and it writes the answer straight into real notes and folders on your Mac.
+## Install
 
-<p align="center">
-  <img src="assets/hero-mindmap.jpg" width="820" alt="Notes on a canvas, a mind map, and Ember creating real files">
-</p>
+1. Download [Ember for Mac](https://github.com/embernotebook/ember/releases/latest/download/Ember.dmg).
+2. Open it and drag Ember into Applications.
+3. Open Ember from Applications.
 
-## A terminal, right inside
+Ember is signed by the developer and notarized by Apple, so it opens like any other app.
 
-Ember has a real terminal built in, sitting next to your notes. Run real commands and AI agents without leaving the app or opening a second window. Terminal power, wrapped in a calm notebook.
+Windows is on its way.
 
-<p align="center">
-  <img src="assets/terminal.jpg" width="820" alt="A full terminal running inside Ember">
-</p>
+## How it works
 
-## Drag and drop
+- **A full terminal, right in your notebook.** Run real commands and the command-line AI tools you already use, next to your notes. No second app, no window to switch to. Drag a note or a file straight into the terminal and keep going.
+- **Pick your AI. Your notes stay yours.** Sign in with Claude, ChatGPT, or Google. No keys, no setup. Switch your AI any time in Settings. Or stay on your own Mac with the free Ollama app, even with the Wi-Fi off. The Ollama app reads and answers; changing a note takes Claude, ChatGPT or Gemini. You can also paste an API key in Settings.
+- **The notes the AI reads are files you own.** Your notes are plain Markdown files on your Mac, and so is every chat. Open them in any editor, back them up, or read them ten years from now. What Ember's chat is told about you is one note, About You, that you can read and change. Walk away whenever you want. It was always yours.
 
-Drag a note or a file from anywhere straight into the terminal, and its path types itself in. No copying long paths, no hunting through folders. Drop it and keep going.
+## Privacy
 
-## Teach it once
+- Your notes stay in a folder on your Mac. Your notes reach an AI only when you ask for something, or when Ember suggests your next words as you type. Ember has no ads and does not track you.
+- Notes the AI reads go to that AI over the internet. With the free Ollama app, no note leaves your Mac.
+- The [privacy page](https://embernotebook.com/privacy.html) says what leaves your Mac and when.
 
-Show Ember how you like something done, the way you lay out a note or a routine you run every week, and it keeps it. You ask once, and it builds the notes and folders for you. You never explain it twice.
+## New in 0.59
 
-<p align="center">
-  <img src="assets/step-files.jpg" width="820" alt="Ask once and Ember builds the notes and folders">
-</p>
+**A new writing room, with the AI inside it.** Write in blocks and type / for any kind of block. Press Space on an empty line and the AI writes there.
 
-## Plan toward a day
+[Everything that's new in 0.59](https://github.com/embernotebook/ember/releases/latest)
 
-Point Ember at a day, like an exam or a trip, and it spreads the work across the weeks between now and then. A little at a time, so nothing lands the night before.
+## Coming next
 
-<p align="center">
-  <img src="assets/calendar.jpg" width="820" alt="Ember planning toward a date on a calendar">
-</p>
+Coming soon.
 
-## Download
+Ember will plug into the apps you already use through connectors, built on MCP, the open standard other AI apps use.
 
-### [Download Ember for Mac](https://github.com/embernotebook/ember/releases/latest/download/Ember.dmg)
+- **Ember Agents**
+  - Name a terminal tab today. Next, an agent will work in it from the notes you give it, and act only on your yes.
+  - **Planner.** Will draft your day from your notes and calendar.
+  - **Coach.** Will check your workouts and meals against your plan.
+  - **Build.** Will take your project's next step in the terminal.
+- **Connectors**
+  - **Google Calendar.** Your day will sit beside your notes.
+  - **Gmail.** Nothing will be sent without your yes.
+  - More connectors as they come.
 
-Built for Apple Silicon Macs (M1 and later). Signed and notarized with Apple, so it opens like any other app.
+## Support
 
-## Website
+- Found a problem? [Here is how to report it](SUPPORT.md), or write to embernotebook@outlook.com.
+- Talk with other people who use Ember on [Discord](https://discord.gg/5ThKWRp7kQ).
+- Watch Ember at work on [YouTube](https://www.youtube.com/@embernotebook).
 
-[Open the Ember website](https://embernotebook.github.io/ember/)
+## License
+
+Ember is free to download and use. This repository holds Ember's website and its downloads.
 
 ## A note from the maker
 
@@ -91,5 +111,3 @@ I am building Ember on my own. If it earns a place on your Mac, a coffee keeps m
 
 **Muhammad Nabeel**
 [GitHub](https://github.com/MrNabeel) &middot; [LinkedIn](https://www.linkedin.com/in/mrnabeel1) &middot; [YouTube](https://www.youtube.com/@embernotebook)
-
-Built with Claude.

@@ -3,347 +3,653 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Ember. You write, Ember remembers.</title>
-<meta name="description" content="Ember is a private AI notebook for your Mac. You write, Ember remembers. Your notes are plain files on your Mac, and it runs on any AI you choose, from Claude to a local model that works offline.">
+<title>Ember Notebook. A memory notebook for all your AI agents.</title>
+<meta name="description" content="Ember is a notebook of plain files on your Mac. The AI you sign in with reads the notes you hand it, and writes there. Your favorite AI runs in a tab beside your notes, and you sign in with Claude, ChatGPT or Google, or stay private with the free Ollama app.">
+<meta name="color-scheme" content="light">
+<meta name="theme-color" content="#FBF8F1">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://embernotebook.com/">
+<link rel="canonical" href="https://embernotebook.com/">
+<meta property="og:title" content="Ember Notebook. A memory notebook for all your AI agents.">
+<meta property="og:description" content="Ember is a notebook of plain files on your Mac. The AI you sign in with reads the notes you hand it, and writes there. Your favorite AI runs in a tab beside your notes, and you sign in with Claude, ChatGPT or Google, or stay private with the free Ollama app.">
+<meta property="og:image" content="https://embernotebook.com/assets/share-card-memory.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
 <link rel="icon" type="image/png" href="assets/ember-logo.png">
+<link rel="preload" as="image" href="assets/hero-grid-light.jpg" imagesrcset="assets/hero-grid-light.jpg 1440w, assets/hero-grid-light@2x.jpg 2880w" imagesizes="(max-width: 760px) 92vw, 1040px">
+<script>document.documentElement.className += ' js';</script>
 <style>
-  :root{
-    --bg:#F4EEE3; --bg2:#EFE8DA; --card:#FCFAF4;
-    --ink:#221E18; --muted:#8B8371; --line:#E6DDCC;
-    --ember:#D9622E; --ember-soft:#F3D2B6; --dark:#1A1712;
-    --green:#2E7D53;
-    --radius:16px;
-    --shadow:0 30px 60px -24px rgba(60,40,20,.35), 0 8px 20px -12px rgba(60,40,20,.25);
-    --font:-apple-system,BlinkMacSystemFont,"SF Pro Display","Segoe UI",Roboto,Helvetica,Arial,sans-serif;
-  }
-  *{box-sizing:border-box;margin:0;padding:0}
-  html{scroll-behavior:smooth}
-  body{font-family:var(--font);background:var(--bg);color:var(--ink);line-height:1.55;-webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility}
-  img,video{max-width:100%;display:block}
-  a{color:inherit;text-decoration:none}
-  .wrap{max-width:1080px;margin:0 auto;padding:0 24px}
+:root{
+  --paper:#FBF8F1; --paper-2:#F3ECDF; --grid:rgba(60,84,124,.075);
+  --ink:#1F1B16; --ink-2:#4E473C; --muted:#736A5A; --line:#E4DCCC; --card:#FFFDF8;
+  --flame:#E2651F; --flame-2:#F29A3A; --flame-3:#F6C35F; --flame-soft:#FBE3CF; --flame-ink:#AD4C16;
+  --marker:rgba(255,221,72,.78); --pink:#F8C8D4; --pink-ink:#7A2741; --tape:rgba(240,214,140,.72);
+  --mint:#CFF3EA; --mint-ink:#0F5E4E; --sky:#DCE8FF; --sky-ink:#1F3F8A; --lilac:#EBDFFF; --lilac-ink:#4B2A86;
+  --hard:rgba(31,27,22,.92);
+  --shadow:0 22px 44px -26px rgba(48,34,18,.5);
+  --font:-apple-system,BlinkMacSystemFont,"SF Pro Text","Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+  --display:-apple-system,BlinkMacSystemFont,"SF Pro Display","Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+  --hand:"Noteworthy","Bradley Hand","Marker Felt","Segoe Print","Comic Sans MS",cursive;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth;-webkit-text-size-adjust:100%}
+body{font-family:var(--font);color:var(--ink);line-height:1.6;-webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility;
+  background-color:var(--paper);
+  background-image:linear-gradient(var(--grid) 1px,transparent 1px),linear-gradient(90deg,var(--grid) 1px,transparent 1px);
+  background-size:26px 26px;overflow-x:hidden}
+img{max-width:100%;height:auto;display:block}
+a{color:inherit}
+.wrap{max-width:1120px;margin:0 auto;padding:0 24px}
+mark{color:inherit;background:linear-gradient(100deg,transparent .6%,var(--marker) 2.4%,var(--marker) 96%,transparent 98.5%);
+  padding:0 .16em;margin:0 -.04em;border-radius:.3em .6em .4em .5em;-webkit-box-decoration-break:clone;box-decoration-break:clone}
+:focus-visible{outline:3px solid var(--flame);outline-offset:3px;border-radius:6px}
 
-  /* nav */
-  nav{position:sticky;top:0;z-index:50;backdrop-filter:saturate(1.2) blur(10px);background:rgba(244,238,227,.72);border-bottom:1px solid transparent;transition:border-color .3s}
-  nav.scrolled{border-color:var(--line)}
-  .nav-in{display:flex;align-items:center;justify-content:space-between;height:74px}
-  .brand{display:flex;align-items:center;gap:12px;font-weight:800;letter-spacing:.02em;font-size:1.35rem;color:var(--ink)}
-  .brand img{width:40px;height:40px;display:block}
-  .nav-actions{display:flex;align-items:center;gap:10px}
-  .nav-ico{display:inline-flex;align-items:center;justify-content:center;width:48px;height:48px;border-radius:12px;color:var(--ink);transition:background .2s,color .2s}
-  .nav-ico:hover{background:var(--card);color:var(--ember)}
-  .nav-ico svg{width:26px;height:26px;fill:currentColor}
-  .btn{display:inline-flex;align-items:center;gap:8px;font-weight:650;font-size:.95rem;padding:11px 18px;border-radius:999px;cursor:pointer;transition:transform .15s,box-shadow .2s,background .2s;border:1px solid transparent;white-space:nowrap}
-  .btn-dark{background:var(--dark);color:#F6EFE2}
-  .btn-dark:hover{transform:translateY(-2px);box-shadow:0 12px 24px -10px rgba(26,23,18,.6)}
-  .btn-ghost{color:var(--ink);border-color:var(--line);background:transparent}
-  .btn-ghost:hover{background:var(--card)}
-  .btn-lg{padding:16px 30px;font-size:1.06rem}
+/* the bar */
+nav{position:sticky;top:0;z-index:50;background:var(--paper);background:color-mix(in srgb,var(--paper) 82%,transparent);
+  -webkit-backdrop-filter:saturate(1.2) blur(10px);backdrop-filter:saturate(1.2) blur(10px);border-bottom:1.5px solid transparent;transition:border-color .3s}
+nav.scrolled{border-color:var(--line)}
+.nav-in{display:flex;align-items:center;justify-content:space-between;height:70px;gap:10px}
+.brand{display:flex;align-items:center;gap:11px;font-weight:800;letter-spacing:.01em;font-size:1.3rem;text-decoration:none;color:var(--ink)}
+.brand img{width:38px;height:38px}
+.nav-actions{display:flex;align-items:center;gap:6px}
+.nav-ico{display:inline-flex;align-items:center;justify-content:center;width:44px;height:44px;border-radius:12px;color:var(--ink);transition:background .2s,color .2s}
+.nav-ico:hover{background:var(--card);color:var(--flame)}
+.nav-ico svg{width:24px;height:24px;fill:currentColor}
+.btn{display:inline-flex;align-items:center;gap:8px;font-weight:700;font-size:.95rem;padding:11px 18px;border-radius:999px;
+  text-decoration:none;white-space:nowrap;border:2px solid var(--ink);transition:transform .15s,box-shadow .15s}
+.btn-ink{background:var(--ink);color:var(--paper);box-shadow:3px 3px 0 var(--flame)}
+.btn-ink:hover{transform:translate(-1px,-2px);box-shadow:5px 5px 0 var(--flame)}
+.btn-lg{padding:16px 30px;font-size:1.08rem}
 
-  /* hero */
-  .hero{text-align:center;padding:72px 0 34px;position:relative;overflow:hidden}
-  .eyebrow{display:inline-block;font-size:.82rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--ember);background:var(--ember-soft);padding:6px 14px;border-radius:999px;margin-bottom:22px}
-  h1{font-size:clamp(2.5rem,6.2vw,4.2rem);line-height:1.03;letter-spacing:-.03em;font-weight:800}
-  h1 .warm{background:linear-gradient(120deg,var(--ember),#E8913F);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent}
-  .sub{max-width:640px;margin:22px auto 0;font-size:clamp(1.05rem,2.2vw,1.28rem);color:#5C5647}
-  .values{display:flex;gap:10px;justify-content:center;flex-wrap:wrap;margin-top:24px}
-  .val{font-size:.9rem;font-weight:700;letter-spacing:.02em;padding:7px 15px;border-radius:999px;background:var(--card);border:1px solid var(--line)}
-  .cta-row{display:flex;gap:14px;justify-content:center;align-items:center;flex-wrap:wrap;margin-top:28px}
-  .fineprint{font-size:.9rem;color:var(--muted);margin-top:14px}
+/* the top */
+.hero{text-align:center;padding:64px 0 24px;position:relative}
+.hero .flame-mark{width:46px;height:64px;margin:0 auto 18px;transform:rotate(-6deg)}
+.tab{display:inline-block;font-weight:800;font-size:.8rem;letter-spacing:.07em;text-transform:uppercase;color:var(--pink-ink);
+  background:var(--pink);border:2px solid var(--ink);border-radius:10px;padding:6px 14px;box-shadow:3px 3px 0 var(--hard);transform:rotate(-1.5deg)}
+.hero .tab{margin-bottom:24px}
+h1{font-family:var(--display);font-size:clamp(2.2rem,9vw,4.6rem);line-height:1.02;letter-spacing:-.035em;font-weight:850;max-width:16ch;margin:0 auto}
+.top-real h1{max-width:20ch;font-size:clamp(2.2rem,5.6vw,3.7rem)}
+.flame-word{position:relative;display:inline-block;color:var(--flame)}
+@media (min-width:420px){.flame-word{white-space:nowrap}}
+.flame-word .swoosh{position:absolute;left:-2%;bottom:-.18em;width:104%;height:.36em}
+.sub{max-width:640px;margin:26px auto 0;font-size:clamp(1.05rem,2.2vw,1.25rem);color:var(--ink-2)}
+.values{display:flex;gap:10px;justify-content:center;flex-wrap:wrap;margin-top:24px}
+.val{font-size:.92rem;font-weight:700;padding:7px 15px;border-radius:999px;background:var(--card);border:2px solid var(--ink)}
+.val:nth-child(2){transform:rotate(1.2deg)} .val:nth-child(3){transform:rotate(-1deg)}
+.cta-row{display:flex;justify-content:center;margin-top:30px}
+.fineprint{font-size:.9rem;color:var(--muted);margin-top:14px}
+.badge{margin:16px 0 0;display:flex;justify-content:center}
+.hero-art{position:relative;max-width:1040px;margin:64px auto 0}
+.hero-note{position:absolute;right:-10px;top:-66px;display:flex;align-items:flex-end;gap:6px;color:var(--ink-2);pointer-events:none}
+.hero-note .hand-note{max-width:300px;text-align:right;font-size:1.12rem}
+.hero-note .doodle-arrow{width:86px;height:64px;transform:rotate(8deg);margin-bottom:-38px;color:var(--flame)}
+.hl-media{position:relative;display:block}
+.hl-vid{position:absolute;left:1px;top:1px;width:calc(100% - 2px);height:calc(100% - 2px);border-radius:8px;object-fit:cover;
+  opacity:0;transition:opacity .35s;pointer-events:none}
+.hl-media.live .hl-vid{opacity:1}
+.hl.playing .hl-dot.on.clip i{animation:none}
+@media (prefers-reduced-motion: reduce){.hl-vid{display:none}}
+.stories{padding:8px 0 64px}
+.stories-cap{max-width:640px;margin:14px auto 0;padding:0 24px;text-align:center;font-family:var(--hand);font-size:1.15rem;color:var(--ink-2)}
+.ending{padding:64px 0 8px}
+.ending .cta-row{justify-content:center}
+.hero-vid{display:block;width:100%;height:auto}
+/* the one clip (his words of Oct 29, 6:16 PM): a simple drag and drop, no slideshow */
+.one-clip{max-width:1040px;margin:0 auto;padding:26px 20px 0;text-align:center}
+.one-clip .hl-line{font-weight:800;font-size:clamp(1.05rem,2.3vw,1.38rem);letter-spacing:-.01em;margin:0 0 18px;color:var(--ink)}
+.one-clip .snap{transform:rotate(-.6deg);background:var(--sky);box-shadow:6px 7px 0 var(--sky-ink)}
 
-  .shot{position:relative;margin:44px auto 0;max-width:1000px;border-radius:var(--radius);border:1px solid var(--line);box-shadow:var(--shadow);overflow:hidden;background:#0c0a08}
-  .shot img,.shot video{width:100%;height:auto;display:block}
-  .hero-glow{position:absolute;left:50%;top:330px;transform:translateX(-50%);width:120%;height:520px;background:radial-gradient(ellipse at center,rgba(217,98,46,.20),rgba(217,98,46,0) 62%);z-index:-1;pointer-events:none}
-  .caption{text-align:center;color:var(--muted);font-size:.98rem;margin-top:18px}
-  .play-note{display:inline-flex;align-items:center;gap:7px}
-  .play-note .live{width:8px;height:8px;border-radius:50%;background:var(--ember);box-shadow:0 0 0 4px rgba(217,98,46,.15)}
+/* pictures, taped down */
+.snap{position:relative;background:var(--card);padding:10px;border:2px solid var(--ink);border-radius:16px;box-shadow:6px 7px 0 var(--hard)}
+.snap img{border-radius:9px;border:1px solid var(--line);width:100%;background:var(--paper-2);aspect-ratio:1440/900;object-fit:cover}
+.snap::before,.snap::after{content:"";position:absolute;width:96px;height:26px;background:var(--tape);top:-13px;border-radius:3px;
+  box-shadow:0 1px 2px rgba(0,0,0,.08);z-index:2}
+.snap::before{left:22px;transform:rotate(-5deg)}
+.snap::after{right:22px;transform:rotate(4deg)}
+.hero-snap{transform:rotate(-.6deg)}
 
-  .aud{text-align:center;color:var(--muted);font-size:1.08rem;max-width:660px;margin:0 auto;padding:38px 0 10px}
-  .aud b{color:var(--ink);font-weight:700}
+/* a day with Ember */
+.day{padding:64px 0 24px}
+.day-head{display:flex;justify-content:center;margin-bottom:26px}
+.day-list{list-style:none;display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:18px;position:relative}
+.day-cat{display:block;font-size:1.2rem;font-weight:900;letter-spacing:-.01em;margin-bottom:8px}
+.day-tab{display:inline-block;margin:8px 0 10px;font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:.78rem;font-weight:700;
+  letter-spacing:.05em;text-transform:uppercase;color:#F5EFE3;background:#15130F;border-radius:8px;padding:5px 11px}
+.ticks{list-style:none;display:grid;gap:10px;margin-top:20px}
+.ticks li{position:relative;padding-left:30px;font-weight:600;color:var(--ink)}
+.ticks li::before{content:"✓";position:absolute;left:0;top:0;font-weight:900;color:var(--flame)}
+.day-list::before{content:"";position:absolute;left:4%;right:4%;top:34px;border-top:2.5px dashed var(--flame-2);z-index:0}
+.day-card{position:relative;z-index:1;background:var(--card);border:2px solid var(--ink);border-radius:18px;box-shadow:4px 5px 0 var(--hard);
+  padding:16px 14px 18px;text-align:center}
+.day-card:nth-child(odd){transform:rotate(-1.2deg)} .day-card:nth-child(even){transform:rotate(1deg)}
+.day-ico{display:flex;align-items:center;justify-content:center;width:52px;height:52px;margin:-34px auto 10px;border-radius:50%;
+  background:var(--flame-soft);border:2px solid var(--ink);font-size:1.55rem}
+.day-place{display:inline-block;font-size:.74rem;font-weight:800;letter-spacing:.02em;color:var(--mint-ink);background:var(--mint);
+  border:1.5px solid var(--ink);border-radius:999px;padding:2px 9px;margin-bottom:8px;white-space:nowrap}
+.day-card p{font-size:.95rem;line-height:1.35;color:var(--ink);font-weight:600}
+.his-line{max-width:760px;margin:0 auto 34px;text-align:center}
+.his-line p{font-family:var(--hand);font-size:clamp(1.3rem,2.6vw,1.7rem);line-height:1.35;color:var(--ink)}
+.his-line .coffee-sign{margin-top:8px;font-size:1.1rem;color:var(--ink-2)}
+.layers{max-width:900px;margin:44px auto 0;text-align:center}
+.layers-sketch{max-width:900px;color:var(--ink)}
+.layers-sketch text{font-family:var(--font)}
+.layers-sketch .sk-mark{fill:var(--sky-ink)}
+.layers-cap{margin-top:10px;font-family:var(--hand);font-size:1.15rem;color:var(--ink-2)}
 
-  section{padding:60px 0}
-  .band{background:var(--bg2)}
-  .grey-band{background:#DAD4C8}
-  .sec-head{max-width:680px}
-  .sec-head.center{margin:0 auto;text-align:center}
-  .kicker{font-size:.82rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--ember);margin-bottom:12px}
-  h2{font-size:clamp(1.85rem,4vw,2.7rem);line-height:1.08;letter-spacing:-.02em;font-weight:800}
-  .lead{font-size:clamp(1.05rem,2vw,1.2rem);color:#5C5647;margin-top:16px}
+/* chapters */
+section{padding:72px 0}
+.band{background:var(--paper-2);background:color-mix(in srgb,var(--paper-2) 70%,transparent)}
+.chap-head{display:flex;align-items:flex-end;gap:18px;margin-bottom:22px}
+.chap-head.center{justify-content:center}
+.num{font-family:var(--display);font-size:clamp(4rem,10vw,7.4rem);font-weight:900;line-height:.8;letter-spacing:-.05em;color:transparent;
+  -webkit-text-stroke:2.4px var(--ink);user-select:none}
+.num.flame{-webkit-text-stroke-color:var(--flame)}
+.chap-head .tab{margin-bottom:10px}
+h2{font-family:var(--display);font-size:clamp(1.9rem,4.4vw,3rem);line-height:1.06;letter-spacing:-.025em;font-weight:850;max-width:22ch}
+.center-text{text-align:center}.center-text h2{margin:0 auto}
+h3{font-family:var(--display);font-size:clamp(1.5rem,3vw,2rem);line-height:1.1;letter-spacing:-.02em;font-weight:850;margin-bottom:12px}
+.lead{font-size:clamp(1.06rem,2vw,1.22rem);color:var(--ink-2);margin-top:16px;max-width:680px}
+.center-text .lead{margin-left:auto;margin-right:auto}
+.lead a{color:var(--flame-ink);font-weight:700;text-decoration-thickness:2px;text-underline-offset:3px}
+.feat{display:grid;grid-template-columns:1fr 1.25fr;gap:52px;align-items:center}
+.feat.rev .feat-text{order:2}
+.feat p{color:var(--ink-2);font-size:1.08rem}
+.sketch{width:100%;max-width:420px;height:auto;color:var(--ink);margin:0 auto;display:block}
 
-  .feat{display:grid;grid-template-columns:1fr 1.3fr;gap:44px;align-items:center;margin-top:8px}
-  .feat.rev .feat-text{order:2}
-  .feat h3{font-size:1.55rem;letter-spacing:-.01em;margin-bottom:12px}
-  .feat p{color:#5C5647;font-size:1.08rem}
+/* the new rows */
+.pic-rows{display:grid;gap:64px;margin-top:46px}
+.pic-row{display:grid;grid-template-columns:1.55fr 1fr;gap:40px;align-items:center}
+.pic-row.right .pic-col{order:2}
+.pic-row .snap{transform:rotate(-.8deg)}
+.pic-row.right .snap{transform:rotate(.8deg)}
+.note-col{position:relative;color:var(--ink-2)}
+.small-num{display:block;font-family:var(--display);font-size:4.6rem;font-weight:900;line-height:.9;color:transparent;-webkit-text-stroke:2px var(--flame);margin-bottom:8px}
+.hand-note{font-family:var(--hand);font-size:1.32rem;line-height:1.35;color:var(--ink)}
+.note-col .doodle-arrow{width:96px;height:72px;color:var(--flame);margin-top:12px}
 
-  /* sign-in card */
-  .signin{max-width:460px;background:var(--card);border:1px solid var(--line);border-radius:20px;box-shadow:var(--shadow);padding:26px 26px 24px}
-  .si-head{display:flex;align-items:center;gap:8px;font-size:1.05rem;margin-bottom:14px}
-  .signin h3{font-size:1.35rem;letter-spacing:-.01em}
-  .si-sub{color:var(--muted);font-size:.95rem;margin:6px 0 16px}
-  .si-row{display:flex;align-items:center;gap:13px;padding:13px 14px;border-radius:13px;background:#F5EFE3;margin-bottom:10px}
-  .si-row.priv{background:#efe8da}
-  .si-ico{width:26px;height:26px;border-radius:7px;flex:none;display:flex;align-items:center;justify-content:center;font-size:16px}
-  .si-t{flex:1;font-size:.95rem;line-height:1.35}
-  .si-t b{font-weight:700}
-  .si-t span{color:var(--muted);font-size:.86rem}
-  .tag{display:inline-block;font-size:.68rem;font-weight:800;letter-spacing:.05em;text-transform:uppercase;color:#F6EFE2;background:var(--dark);padding:2px 8px;border-radius:999px;vertical-align:1px}
-  .si-ok{color:var(--green);font-weight:700;font-size:.9rem;white-space:nowrap}
-  .si-btn{margin-top:8px;width:100%;background:var(--dark);color:#F6EFE2;border:none;border-radius:13px;padding:14px;font-size:1.02rem;font-weight:700;font-family:inherit;cursor:pointer}
+/* bring your own AI */
+.signin{max-width:470px;background:var(--card);border:2px solid var(--ink);border-radius:20px;box-shadow:7px 8px 0 var(--hard);padding:26px;margin:0 auto;transform:rotate(.7deg)}
+.si-head{display:flex;align-items:center;gap:8px;font-size:1.05rem;margin-bottom:14px}
+.signin h3{font-size:1.3rem}
+.si-fig{margin:0}.si-fig .layers-cap{max-width:470px;text-align:center}
+.si-sub{color:var(--muted);font-size:.95rem;margin:4px 0 16px}
+.si-row{display:flex;align-items:center;gap:13px;padding:12px 14px;border-radius:13px;background:var(--paper-2);margin-bottom:10px;border:1.5px solid var(--line)}
+.si-ico{width:26px;height:26px;border-radius:7px;flex:none;display:flex;align-items:center;justify-content:center;font-size:16px}
+.si-t{flex:1;min-width:0;font-size:.95rem;line-height:1.35}
+.si-t span{color:var(--muted);font-size:.86rem}
+.tag{display:inline-block;font-size:.66rem;font-weight:800;letter-spacing:.05em;text-transform:uppercase;color:var(--paper);background:var(--ink);padding:2px 8px;border-radius:999px;vertical-align:1px}
+.si-ok{color:#2E8B57;font-weight:700;font-size:.88rem;white-space:nowrap}
+.si-btn{margin-top:8px;width:100%;background:var(--ink);color:var(--paper);border:2px solid var(--ink);border-radius:13px;padding:13px;font-size:1rem;font-weight:800;font-family:inherit;cursor:default}
+.chat-pic{max-width:1040px;margin:56px auto 0}
 
-  /* dark lock panel */
-  .lock{background:var(--dark);color:#EFE7D8;border-radius:22px;padding:56px;text-align:center;box-shadow:var(--shadow);position:relative;overflow:hidden}
-  .lock .glow{position:absolute;left:50%;top:-40px;transform:translateX(-50%);width:340px;height:340px;background:radial-gradient(circle,rgba(217,98,46,.28),transparent 65%)}
-  .lock .ico{font-size:2.6rem;margin-bottom:16px}
-  .lock h2{color:#FBF4E7}
-  .lock p{color:#C9BFAC;max-width:580px;margin:16px auto 0;font-size:1.12rem}
+/* coming next: drawn in pencil, never a picture, because none of it is built */
+.next-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:22px;margin-top:34px}
+.next-card{position:relative;background:var(--card);border:2.5px dashed var(--ink-2);border-radius:20px;padding:28px 24px 24px}
+.next-card:nth-child(1){transform:rotate(-.8deg)} .next-card:nth-child(3){transform:rotate(.8deg)}
+.next-ico{display:block;font-size:2.3rem;margin-bottom:12px}
+.next-card h3{font-size:1.35rem;margin-bottom:8px}
+.next-card p{color:var(--ink-2);font-size:1.02rem}
+.next-mark{display:inline-block;margin-top:16px;font-size:.76rem;font-weight:800;letter-spacing:.06em;text-transform:uppercase;
+  color:var(--sky-ink);background:var(--sky);border:2px solid var(--ink);border-radius:999px;padding:4px 12px}
 
-  /* pull quote */
-  .quote{text-align:center;max-width:820px;margin:0 auto}
-  .quote p{font-size:clamp(1.5rem,3.4vw,2.2rem);line-height:1.28;letter-spacing:-.02em;font-weight:700}
-  .quote .em{color:var(--ember)}
+/* the quote */
+.quote{text-align:center;max-width:840px;margin:0 auto}
+.quote p{font-family:var(--display);font-size:clamp(1.3rem,3vw,2rem);line-height:1.3;letter-spacing:-.02em;font-weight:800}
+.quote .em{background:linear-gradient(100deg,transparent .6%,var(--marker) 2.4%,var(--marker) 96%,transparent 98.5%);padding:0 .16em;border-radius:.3em .6em .4em .5em;-webkit-box-decoration-break:clone;box-decoration-break:clone}
 
-  .download{text-align:center}
-  .download h2{max-width:640px;margin:0 auto}
+/* the maker's note */
+.coffee{max-width:620px;margin:0 auto;text-align:center;background:var(--card);border:2px solid var(--ink);border-radius:22px;box-shadow:7px 8px 0 var(--hard);padding:44px 38px;transform:rotate(-.6deg)}
+.coffee .cup{width:74px;height:64px;margin:0 auto 12px;color:var(--ink)}
+.coffee-note{font-size:1.18rem;color:var(--ink-2);line-height:1.5}
+.coffee-sign{margin-top:14px;font-family:var(--hand);font-size:1.3rem;color:var(--ink)}
+.coffee .btn{margin-top:22px}
+.btn-flame{background:var(--flame);color:#fff;border-color:var(--ink);box-shadow:3px 3px 0 var(--hard)}
+.btn-flame:hover{transform:translate(-1px,-2px);box-shadow:5px 5px 0 var(--hard)}
 
-  /* founder coffee note */
-  .coffee{max-width:600px;margin:0 auto;text-align:center;background:var(--card);border:1px solid var(--line);border-radius:22px;box-shadow:var(--shadow);padding:44px 40px}
-  .coffee-ico{font-size:2.4rem;margin-bottom:14px}
-  .coffee-note{font-size:1.2rem;color:#5C5647;line-height:1.5}
-  .coffee-sign{margin-top:14px;font-weight:700;color:var(--ink)}
-  .coffee .btn{margin-top:24px}
-  .btn-coffee{background:var(--ember);color:#fff}
-  .btn-coffee:hover{transform:translateY(-2px);box-shadow:0 12px 24px -10px rgba(217,98,46,.6)}
+footer{border-top:2px solid var(--ink);padding:40px 0;background:var(--paper-2)}
+.foot-in{display:flex;flex-wrap:wrap;gap:20px;align-items:center;justify-content:space-between}
+.foot-tag{font-family:var(--hand);font-size:1.35rem}
+.foot-links{display:flex;flex-wrap:wrap;gap:12px 22px;color:var(--muted);font-size:.95rem}
+.foot-links a{text-decoration:none}
+.foot-links a:hover{color:var(--ink)}
 
-  footer{border-top:1px solid var(--line);padding:44px 0;background:var(--bg2)}
-  .foot-in{display:flex;flex-wrap:wrap;gap:20px;align-items:center;justify-content:space-between}
-  .foot-tag{font-size:1.15rem;font-weight:700;letter-spacing:-.01em}
-  .foot-links{display:flex;gap:22px;color:var(--muted);font-size:.95rem}
-  .foot-links a:hover{color:var(--ink)}
-  .foot-note{width:100%;color:var(--muted);font-size:.82rem;margin-top:8px}
+.js .reveal{opacity:0;transform:translateY(16px);transition:opacity .7s ease,transform .7s ease}
+.js .reveal.in{opacity:1;transform:none}
+/* after the card rules they change (look_v3, 10:47 and 10:50): a long place wraps inside its card on a phone, the tab
+   always sits on its own row, and the line under the top line breaks evenly */
+.day-place,.day-tab{max-width:100%;white-space:normal}
+.day-tab{display:table;margin-left:auto;margin-right:auto}
+.day-tab-none{visibility:hidden}
+.sub{text-wrap:balance}
+@media (prefers-reduced-motion: reduce){html{scroll-behavior:auto}.js .reveal{opacity:1;transform:none;transition:none}.btn{transition:none}}
 
-  .reveal{opacity:0;transform:translateY(18px);transition:opacity .7s,transform .7s}
-  .reveal.in{opacity:1;transform:none}
-
-  @media(max-width:420px){
-    h1{font-size:clamp(2rem,10.2vw,2.5rem)}
-    .eyebrow{font-size:.72rem;max-width:100%}
-    .nav-actions .btn{padding:9px 12px;font-size:.8rem}
-  }
-  @media(max-width:400px){
-    .nav-ico{display:none}
-  }
-  @media(max-width:760px){
-    .nav-in{gap:8px}
-    .brand{font-size:1.1rem;gap:8px}
-    .brand img{width:32px;height:32px}
-    .nav-actions{gap:5px}
-    .nav-ico{width:38px;height:38px}
-    .nav-ico svg{width:22px;height:22px}
-    .nav-actions .btn{padding:9px 13px;font-size:.85rem}
-    .feat{grid-template-columns:minmax(0,1fr);gap:24px}
-    .feat.rev .feat-text{order:0}
-    .signin{max-width:100%}
-    .si-t{min-width:0}
-    .lock{padding:40px 26px}
-    .foot-in{flex-direction:column;align-items:flex-start}
-    .foot-links{flex-wrap:wrap;gap:12px 18px}
-    .signin{margin:0 auto}
-  }
+@media (max-width:1000px){
+  .day-list{grid-template-columns:repeat(2,minmax(0,1fr));row-gap:40px}
+  .day-list::before{display:none}
+}
+@media (max-width:900px){
+  .hero-note{display:none}
+  .feat,.pic-row,.next-grid{grid-template-columns:minmax(0,1fr);gap:28px}
+  .feat.rev .feat-text,.pic-row.right .pic-col{order:0}
+  .note-col .doodle-arrow{display:none}
+}
+@media (max-width:760px){
+  section{padding:54px 0}
+  .wrap{padding:0 16px}
+  .nav-in{height:62px}
+  .brand{font-size:1.12rem;gap:8px}.brand img{width:32px;height:32px}
+  .nav-ico{width:38px;height:38px}.nav-ico svg{width:21px;height:21px}
+  .nav-actions .btn{padding:9px 13px;font-size:.84rem}
+  .hero{padding-top:42px}
+  .hero-art{margin-top:40px}
+  .snap,.hero-snap,.pic-row .snap,.pic-row.right .snap,.signin,.coffee,.day-card,.next-card{transform:none}
+  .snap{padding:7px;box-shadow:4px 5px 0 var(--hard)}
+  .snap::before,.snap::after{width:70px;height:20px;top:-10px}
+  .one-clip{padding:20px 4px 0}.one-clip .snap{transform:none;box-shadow:4px 5px 0 var(--sky-ink)}
+  .day-list{grid-template-columns:repeat(2,minmax(0,1fr));gap:36px 12px}
+  .coffee{padding:34px 22px}
+  .chap-head{gap:12px}
+  .small-num{font-size:3.4rem}
+}
+@media (max-width:400px){.nav-ico{display:none}.val{font-size:.85rem}}
+.fineprint.soon{margin-top:2px;font-family:var(--hand);font-size:1.04rem;color:var(--ink-2)}
+/* the free band: the page's own card, tape, outline and flame shadow */
+.free{padding:70px 0 76px}
+.free-card{position:relative;max-width:760px;margin:0 auto;padding:44px 28px 40px;background:var(--card);border:2px solid var(--ink);
+  border-radius:22px;box-shadow:6px 6px 0 var(--flame)}
+.free-card::before{content:"";position:absolute;width:110px;height:28px;background:var(--tape);top:-14px;left:50%;
+  transform:translateX(-50%) rotate(-3deg);border-radius:3px}
+.free-zero{font-family:var(--display);font-size:clamp(4.6rem,14vw,7.6rem);font-weight:900;line-height:.9;color:transparent;
+  -webkit-text-stroke:3px var(--flame);transform:rotate(-5deg);margin:0 auto 8px}
+.free h2{margin:6px auto 14px}
+.free-line{font-size:1.15rem;line-height:2.15;color:var(--ink-2);max-width:620px;margin:0 auto;text-wrap:balance}
+.fc{display:inline-block;font-weight:800;padding:1px 12px;border-radius:999px;border:2px solid var(--ink);box-shadow:2px 2px 0 var(--ink);
+  line-height:1.6;white-space:nowrap}
+.fcw,.fp{font-style:normal}.fcw{white-space:nowrap}.fp{margin-left:4px}
+.f-claude{background:var(--flame-soft);color:var(--flame-ink)} .f-chatgpt{background:var(--mint);color:var(--mint-ink)}
+.f-gemini{background:var(--sky);color:var(--sky-ink)} .f-ollama{background:var(--lilac);color:var(--lilac-ink)}
+@media (max-width:560px){.free{padding:48px 0 54px}.free-card{padding:36px 16px 30px}.free-line{font-size:1.02rem}}
+/* the AI bill, side by side (his words of Oct 29, 6:16 PM), naming no product */
+.cmp{padding:0 0 70px}
+.cmp-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:18px;max-width:760px;margin:0 auto}
+.cmp-col{border-radius:22px;padding:24px 22px 22px;text-align:left}
+.cmp-col h3{font-size:clamp(1.05rem,2.2vw,1.3rem);line-height:1.2;margin:0 0 14px}
+.cmp-col ul{list-style:none;margin:0;padding:0;display:grid;gap:12px}
+.cmp-col li{position:relative;padding-left:26px;line-height:1.35}
+.cmp-them{background:var(--paper-2);border:2px dashed var(--muted);color:var(--ink-2)}
+.cmp-them li::before{content:"";position:absolute;left:4px;top:.62em;width:11px;height:2.5px;border-radius:2px;background:var(--muted)}
+.cmp-us{background:var(--card);border:2px solid var(--ink);box-shadow:6px 6px 0 var(--flame)}
+.cmp-us li{font-weight:700;color:var(--ink)}
+.cmp-us li::before{content:"";position:absolute;left:3px;top:.28em;width:11px;height:6px;border-left:3px solid var(--flame);
+  border-bottom:3px solid var(--flame);transform:rotate(-45deg)}
+@media (max-width:560px){.cmp{padding-bottom:54px}.cmp-grid{gap:12px}.cmp-col{padding:18px 14px 16px}.cmp-us{box-shadow:4px 4px 0 var(--flame)}}
+/* How it works (note 07): the drawing in the page's ink, then the rows, then the six facts, then the three honest lines */
+.how-fig{max-width:940px;margin:44px auto 0}
+.how-draw{display:grid;grid-template-columns:minmax(0,1.25fr) 52px minmax(0,1fr) 52px minmax(0,1fr);align-items:center;column-gap:4px}
+.hd-in{list-style:none;margin:0;padding:0;display:grid;gap:10px}
+.hd-chip,.hd-ai,.hd-out{display:flex;align-items:center;gap:12px;border:2px solid var(--ink);font-weight:750;line-height:1.25;color:var(--ink)}
+.hd-chip{background:var(--card);border-radius:16px;padding:7px 14px 7px 7px;box-shadow:3px 3px 0 var(--sky-ink)}
+.hd-ai,.hd-out{flex-direction:column;justify-content:center;text-align:center;border-radius:24px;padding:22px 14px;min-height:150px}
+.hd-ai{background:var(--lilac);box-shadow:5px 5px 0 var(--lilac-ink)}
+.hd-out{background:var(--mint);box-shadow:5px 5px 0 var(--mint-ink)}
+.hd-ico{flex:none;display:grid;place-items:center;width:42px;height:42px;border-radius:12px;background:var(--paper-2);
+  border:2px solid var(--ink-2);color:var(--ink)}
+.hd-ai .hd-ico,.hd-out .hd-ico{background:var(--card)}
+.hd-arrow{display:grid;place-items:center;color:var(--ink)}
+.hd-folder{grid-column:1/-1;display:flex;align-items:center;justify-content:center;gap:12px;margin-top:24px;padding:12px 18px;
+  border:2px dashed var(--ink-2);border-radius:18px;font-family:var(--hand);font-size:1.3rem;color:var(--ink)}
+.hd-folder .hd-ico{width:38px;height:38px}
+.how-rows{list-style:none;margin:52px auto 0;padding:0;max-width:980px;display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:16px}
+.how-row{background:var(--card);border:2px solid var(--ink);border-radius:20px;padding:18px 20px 20px}
+.how-row b{display:block;font-family:var(--display);font-size:1.16rem;line-height:1.25;letter-spacing:-.01em;margin-bottom:6px}
+.how-row span{display:block;color:var(--ink-2);line-height:1.55}
+.how-rows .how-row:last-child:nth-child(odd){grid-column:1/-1}
+.how-facts{max-width:980px;margin:22px auto 0;padding:22px 26px 24px;border:2px solid var(--ink);border-radius:20px;
+  background:var(--card);box-shadow:5px 5px 0 var(--sky-ink)}
+.how-facts h3{font-size:clamp(1.15rem,2.2vw,1.35rem);margin-bottom:12px;text-wrap:balance}
+.how-facts ul{list-style:none;margin:0;padding:0;display:grid;gap:12px}
+.how-facts li{color:var(--ink-2);line-height:1.55}
+.how-facts li b{color:var(--ink);font-weight:800}
+.how-not{max-width:980px;margin:22px auto 0;padding:20px 24px 22px;border:2px dashed var(--muted);border-radius:20px;background:var(--paper)}
+.how-not h3{font-size:clamp(1.15rem,2.2vw,1.35rem);margin-bottom:10px}
+.how-not ul{margin:0;padding-left:20px;display:grid;gap:8px;color:var(--ink-2);line-height:1.55}
+@media (max-width:760px){.how-draw{grid-template-columns:minmax(0,1fr);row-gap:2px}.hd-arrow{height:44px}
+  .hd-arrow svg{transform:rotate(90deg)}
+  .hd-ai,.hd-out{flex-direction:row;justify-content:flex-start;text-align:left;min-height:0;padding:12px 14px}
+  .hd-folder{margin-top:16px;font-size:1.15rem;justify-content:flex-start;text-align:left}
+  .how-rows{grid-template-columns:minmax(0,1fr);margin-top:40px}.how-rows .how-row:last-child:nth-child(odd){grid-column:auto}
+  .how-row{padding:16px 16px 18px}.how-facts{padding:18px 16px 20px;box-shadow:4px 4px 0 var(--sky-ink)}
+  .how-not{padding:18px 16px}}
+.ph-link{display:inline-flex;align-items:center;gap:8px;padding:7px 16px;border:2px solid var(--ink);border-radius:999px;background:var(--card);box-shadow:2px 2px 0 var(--ink);color:var(--ink);font-weight:800;font-size:.95rem;line-height:1.3;text-decoration:none}
+.ph-link:hover{transform:translate(-1px,-1px);box-shadow:3px 3px 0 var(--ink)}
+/* the drawings: you and the AI working together (his words of Oct 29, 11:19 AM), none in the hero */
+.doodle{display:block;height:auto;color:var(--ink);pointer-events:none}
+.free-card .dd-page{width:236px;margin:14px auto -22px}
+.quote .dd-note{width:214px;margin:0 auto 12px}
+.coffee{position:relative}
+.coffee .dd-cheers{position:absolute;width:150px;right:40px;top:-99px}
+@media (max-width:760px){.free-card .dd-page{width:196px;margin-bottom:-16px}.quote .dd-note{width:176px}.coffee .dd-cheers{display:none}}
+.brand .bw-1{font-family:var(--display);font-weight:850}.brand .bw-2{font-family:var(--hand);font-style:normal;font-weight:700;color:var(--flame);margin-left:-.04em}
+.brand{align-items:baseline}.brand img{align-self:center}.brand .bw-1,.brand .bw-2{line-height:38px}
+@media (max-width:760px){.brand .bw-1,.brand .bw-2{line-height:32px}}
+.next-sub{max-width:640px;margin:0 auto;font-size:clamp(1.02rem,2vw,1.15rem);color:var(--ink-2)}
+/* Coming next: one wide card, a row for each app with a drawn tile and a drawn plus that does nothing */
+.next-grid .next-list{grid-column:span 2}
+.conn-top{display:flex;align-items:center;flex-wrap:wrap;gap:8px 12px;margin-bottom:18px}
+.conn-top h3{margin-bottom:0}
+.conn-top .next-mark{margin-top:0}
+.conn-list{list-style:none;margin:0;padding:0;display:grid;gap:12px}
+.conn-item{display:flex;align-items:center;gap:14px;background:var(--paper);border:2px solid var(--ink);border-radius:24px;padding:10px 18px 10px 10px}
+.conn-tile{flex:none;display:grid;place-items:center;width:48px;height:48px;border-radius:14px;background:var(--paper-2);border:2px solid var(--ink-2);color:var(--ink)}
+.conn-t{flex:1;min-width:0;display:flex;flex-direction:column;gap:2px;line-height:1.3}
+.conn-t b{font-size:1.08rem}
+.conn-t span{color:var(--ink-2);font-size:.95rem}
+.conn-plus{flex:none;display:grid;place-items:center;color:var(--ink)}
+.next-card .conn-more{margin-top:16px}
+@media (max-width:900px){.next-grid .next-list{grid-column:auto}}
+/* Coming next: Ember Agents beside Connectors, a row for each agent with a drawn tile */
+.next-grid.two{grid-template-columns:repeat(2,minmax(0,1fr))}
+.next-grid.two .next-list{grid-column:auto}
+.agent-lead{margin:0 0 16px;color:var(--ink-2)}
+.agent-list{list-style:none;margin:0;padding:0;display:grid;gap:12px}
+.agent-item{display:flex;align-items:center;gap:14px;background:var(--paper);border:2px solid var(--ink);border-radius:24px;padding:10px 18px 10px 10px}
+@media (max-width:900px){.next-grid.two{grid-template-columns:minmax(0,1fr)}}
 </style>
 </head>
 <body>
 
 <nav id="nav">
   <div class="wrap nav-in">
-    <a class="brand" href="#top"><img src="assets/ember-logo.png" alt="Ember"> Ember</a>
+    <a class="brand" href="#top"><img src="assets/ember-logo.png" width="38" height="38" alt="Ember"> <b class="bw-1">Ember</b> <i class="bw-2">Notebook</i></a>
     <div class="nav-actions">
       <a class="nav-ico" href="https://github.com/embernotebook" aria-label="GitHub" title="GitHub"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 .3a12 12 0 0 0-3.8 23.4c.6.1.8-.3.8-.6v-2c-3.3.7-4-1.6-4-1.6-.6-1.4-1.4-1.8-1.4-1.8-1-.7.1-.7.1-.7 1.2.1 1.8 1.2 1.8 1.2 1.1 1.8 2.8 1.3 3.5 1 .1-.8.4-1.3.7-1.6-2.7-.3-5.5-1.3-5.5-6 0-1.3.5-2.4 1.2-3.2 0-.4-.5-1.6.2-3.2 0 0 1-.3 3.3 1.2a11.5 11.5 0 0 1 6 0C17 5 18 5.3 18 5.3c.7 1.6.2 2.8.1 3.2.8.8 1.2 1.9 1.2 3.2 0 4.6-2.8 5.6-5.5 5.9.5.4.8 1.1.8 2.2v3.3c0 .3.2.7.8.6A12 12 0 0 0 12 .3z"/></svg></a>
       <a class="nav-ico" href="https://discord.gg/5ThKWRp7kQ" aria-label="Discord" title="Discord"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M19.27 5.33C17.94 4.71 16.5 4.26 15 4a.09.09 0 0 0-.07.03c-.18.33-.39.76-.53 1.09a16.09 16.09 0 0 0-4.8 0c-.14-.34-.35-.76-.54-1.09-.01-.02-.04-.03-.07-.03-1.5.26-2.93.71-4.27 1.33-.01 0-.02.01-.03.02-2.72 4.07-3.47 8.03-3.1 11.95 0 .02.01.04.03.05 1.8 1.32 3.53 2.12 5.24 2.65.03.01.06 0 .07-.02.4-.55.76-1.13 1.07-1.74.02-.04 0-.08-.04-.09-.57-.22-1.11-.48-1.64-.78-.04-.02-.04-.08-.01-.11.11-.08.22-.17.33-.25.02-.02.05-.02.07-.01 3.44 1.57 7.15 1.57 10.55 0 .02-.01.05-.01.07.01.11.09.22.17.33.26.04.03.04.09-.01.11-.52.31-1.07.56-1.64.78-.04.01-.05.06-.04.09.32.61.68 1.19 1.07 1.74.03.02.06.03.09.02 1.72-.53 3.45-1.33 5.25-2.65.02-.01.03-.03.03-.05.44-4.53-.73-8.46-3.1-11.95-.01-.01-.02-.02-.04-.02zM8.52 14.91c-1.03 0-1.89-.95-1.89-2.12s.84-2.12 1.89-2.12c1.06 0 1.9.96 1.89 2.12 0 1.17-.84 2.12-1.89 2.12zm6.97 0c-1.03 0-1.89-.95-1.89-2.12s.84-2.12 1.89-2.12c1.06 0 1.9.96 1.89 2.12 0 1.17-.83 2.12-1.89 2.12z"/></svg></a>
       <a class="nav-ico" href="https://www.youtube.com/@embernotebook" aria-label="YouTube" title="YouTube"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M23.5 6.2a3 3 0 0 0-2.1-2.1C19.5 3.5 12 3.5 12 3.5s-7.5 0-9.4.6A3 3 0 0 0 .5 6.2 31.4 31.4 0 0 0 0 12c0 1.9.2 3.9.5 5.8a3 3 0 0 0 2.1 2.1c1.9.6 9.4.6 9.4.6s7.5 0 9.4-.6a3 3 0 0 0 2.1-2.1c.3-1.9.5-3.9.5-5.8s-.2-3.9-.5-5.8zM9.6 15.6V8.4L15.8 12l-6.2 3.6z"/></svg></a>
-      <a class="btn btn-dark" href="https://github.com/embernotebook/ember/releases/latest/download/Ember.dmg">Download for Mac</a>
+      <a class="btn btn-ink" href="https://github.com/embernotebook/ember/releases/latest/download/Ember.dmg">Download for Mac</a>
     </div>
   </div>
 </nav>
 
-<!-- HERO -->
 <header class="hero" id="top">
-  <div class="hero-glow"></div>
   <div class="wrap">
-    <span class="eyebrow">A private AI notebook for your Mac</span>
-    <h1>You write.<br><span class="warm">Ember remembers.</span></h1>
-    <p class="sub">Everything you tell Ember becomes a plain file on your Mac. Teach it something once and it remembers for good. Bring any AI you like, from Claude to one that runs offline.</p>
+    <svg class="flame-mark" viewBox="0 0 40 56" aria-hidden="true"><path d="M20 2C30 16 38 26 36 38S26 55 20 55 5 50 4 39 12 18 20 2Z" style="fill:var(--flame)"/><path d="M21 16c6 11 9 18 7 27s-6 10-8 10-7-4-7-11 4-16 8-26Z" style="fill:var(--flame-3)"/></svg>
+    <span class="tab">Your favorite AI runs the way it runs, in a tab beside your notes</span>
+    <h1>A memory notebook for all your <span class="flame-word">AI agents.<svg class="swoosh" viewBox="0 0 320 24" preserveAspectRatio="none" aria-hidden="true"><path d="M4 15C60 7 118 6 170 9s98 6 146 1" fill="none" stroke-width="5" stroke-linecap="round" style="stroke:var(--flame)"/><path d="M40 20c52-6 120-7 200-3" fill="none" stroke-width="3" stroke-linecap="round" opacity=".7" style="stroke:var(--flame-2)"/></svg></span></h1>
+    <p class="sub">Ember is a notebook of plain files on your Mac. The AI you sign in with reads the notes you hand it, and writes there.</p>
+    <div class="cta-row"><a class="btn btn-ink btn-lg" href="https://github.com/embernotebook/ember/releases/latest/download/Ember.dmg">Download Ember for Mac</a></div>
+    <p class="fineprint">For Apple Silicon Macs (M1 and later) on macOS 14 or later. Free.</p>
+    <p class="fineprint soon">Windows is on its way.</p>
+    <div class="hero-art">
+      <div class="hero-note" aria-hidden="true"><p class="hand-note">The free Ollama app answers on this Mac, even with Wi-Fi off</p><svg class="doodle-arrow" viewBox="0 0 120 90" aria-hidden="true"><path d="M110 6C96 30 70 46 40 58s-22 18-28 26" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round"/><path d="M8 66l4 19 18-7" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+      <figure class="snap hero-snap"><video class="hero-vid" muted playsinline autoplay loop preload="metadata" poster="assets/hero-grid-light.jpg" aria-label="Your favorite AI runs the way it runs, in a tab beside your notes"><source src="assets/clip-hero.mp4" type="video/mp4"></video></figure>
+    </div>
     <div class="values">
       <span class="val">🔒 Private</span>
       <span class="val">🖥️ Local</span>
       <span class="val">🤖 Any AI</span>
     </div>
-    <div class="cta-row">
-      <a class="btn btn-dark btn-lg" href="https://github.com/embernotebook/ember/releases/latest/download/Ember.dmg">Download Ember for Mac</a>
-    </div>
-    <p class="fineprint">Built for Apple Silicon Macs (M1 and later).</p>
-
-    <div style="margin:14px 0 0;display:flex;justify-content:center;">
-      <a href="https://www.producthunt.com/products/ember-113?embed=true&amp;utm_source=badge-featured&amp;utm_medium=badge&amp;utm_campaign=badge-ember-9ab3dcb8-0940-4fff-8bfe-5c12ace00fd2" target="_blank" rel="noopener noreferrer"><img alt="Ember - A private AI notebook for your Mac | Product Hunt" width="250" height="54" src="https://api.producthunt.com/widgets/embed-image/v1/featured.svg?post_id=1198409&amp;theme=light&amp;t=1784225766853"></a>
-    </div>
-
-    <div class="shot">
-      <video autoplay loop muted playsinline poster="assets/hero-poster.jpg">
-        <source src="assets/hero.mp4" type="video/mp4">
-      </video>
-    </div>
-    <p class="caption"><span class="play-note"><span class="live"></span> You ask once. Ember builds the whole notebook and saves it as real files on your Mac.</span></p>
+    <div class="badge"><a class="ph-link" href="https://www.producthunt.com/products/ember-113" target="_blank" rel="noopener noreferrer">Ember on Product Hunt<svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 17 17 7M9 7h8v8"/></svg></a></div>
   </div>
 </header>
 
-<!-- AUDIENCE -->
-<div class="wrap">
-  <p class="aud reveal">Ember is for anyone who keeps notes. A trader keeps their lessons. A student keeps their courses. A founder keeps their ideas.</p>
+<section class="day" id="day">
+  <div class="wrap">
+    <div class="day-head reveal"><span class="tab">A day with Ember</span></div>
+
+    <ol class="day-list reveal">
+        <li class="day-card"><span class="day-ico" aria-hidden="true">🎓</span><b class="day-cat">School</b><span class="day-place">🧬 BIO 101 Easy Biology</span><span class="day-tab">📚 Study</span><p>Summarize a folder or the notes you have open</p></li>
+        <li class="day-card"><span class="day-ico" aria-hidden="true">💪</span><b class="day-cat">Health</b><span class="day-place">🥗 Nutrition Tracker</span><span class="day-tab">🏋️ Coach</span><p>Task boxes you can tick</p></li>
+        <li class="day-card"><span class="day-ico" aria-hidden="true">🚀</span><b class="day-cat">Kiln App</b><span class="day-place">🛠️ Build Sessions</span><span class="day-tab">🚀 Build</span><p>A chat can sit beside the note you are writing</p></li>
+        <li class="day-card"><span class="day-ico" aria-hidden="true">🎨</span><b class="day-cat">Canvas</b><span class="day-place">🧠 Mind Map</span><span class="day-tab day-tab-none" aria-hidden="true">&nbsp;</span><p>A mind map of your notes</p></li>
+    </ol>
+  </div>
+</section>
+
+<section class="stories" id="stories">
+<div class="one-clip reveal">
+  <p class="hl-line">Drag a note into the chat and ask about it. Ember sends that note with your question.</p>
+  <figure class="snap one-snap"><span class="hl-media"><img src="assets/cl-drag-light.jpg" srcset="assets/cl-drag-light.jpg 1040w, assets/cl-drag-light@2x.jpg 1280w" sizes="(max-width: 760px) 92vw, 1040px" width="1040" height="650" alt="Drag a note into the chat and ask about it. Ember sends that note with your question." loading="lazy" decoding="async"><video class="hl-vid one-vid" muted playsinline preload="none" data-src="assets/clip-drag.mp4" aria-hidden="true" tabindex="-1" disablepictureinpicture></video></span></figure>
 </div>
-
-<!-- CANVAS -->
-<section class="band">
-  <div class="wrap">
-    <div class="feat reveal">
-      <div class="feat-text">
-        <div class="kicker">See it your way</div>
-        <h3>A canvas for your thinking.</h3>
-        <p>Notes, blocks, and a mind map on one open canvas. Ember lays your ideas out the way your head actually works. No plugins to install, no setup to learn. It just works.</p>
-      </div>
-      <div class="shot"><img src="assets/canvas.jpg" alt="Ember's open canvas with note cards and a mind map"></div>
-    </div>
-  </div>
 </section>
 
-<!-- TERMINAL INSIDE -->
-<section class="grey-band">
+<section class="band" id="terminal">
   <div class="wrap">
-    <div class="sec-head center reveal">
-      <div class="kicker">Real terminal power</div>
+    <div class="center-text reveal">
+      <div class="chap-head center"><span class="num flame" aria-hidden="true">01</span><span class="tab">The terminal</span></div>
       <h2>A full terminal, right in your notebook.</h2>
-      <p class="lead">Run real commands and AI agents next to your notes. No second app, no window to switch to. Drag a note or a file straight into the terminal and keep going. Terminal power, wrapped in a beautiful app.</p>
-    </div>
-    <div class="shot reveal" style="margin-top:40px"><img src="assets/terminal.jpg" alt="Ember with a built-in terminal running below the notes"></div>
-  </div>
-</section>
-
-<!-- SKILLS -->
-<section>
-  <div class="wrap">
-    <div class="sec-head center reveal">
-      <div class="kicker">Teach it once</div>
-      <h2>Show Ember a skill once. It keeps it forever.</h2>
-      <p class="lead">Teach Ember how you like something done, a way to lay out a note or a routine you run every week, and it remembers. You never explain it twice.</p>
+      <p class="lead">Run real commands and the command-line AI tools you already use, next to your notes. No second app, no window to switch to. Drag a note or a file straight into the terminal and keep going.</p>
     </div>
   </div>
 </section>
 
-<!-- CALENDAR / PLAN -->
-<section>
-  <div class="wrap">
-    <div class="feat rev reveal">
-      <div class="feat-text">
-        <div class="kicker">Plan toward a day</div>
-        <h3>Tell it the deadline. It plans the weeks.</h3>
-        <p>Point Ember at a day, like an exam or a trip, and it spreads the work across every week between now and then. A little at a time, so nothing lands the night before.</p>
-      </div>
-      <div class="shot"><img src="assets/calendar.jpg" alt="Ember's calendar view with a plan-toward-a-day panel"></div>
-    </div>
-  </div>
-</section>
-
-<!-- BRING YOUR OWN AI -->
-<section class="band">
+<section class="band" id="ai">
   <div class="wrap">
     <div class="feat reveal">
       <div class="feat-text">
-        <div class="kicker">Bring your own AI</div>
-        <h3>The AI is a guest. The memory is yours.</h3>
-        <p>Sign in with Claude, ChatGPT, or Google. No keys, no setup. Switching your AI feels as easy as Sign in with Google. Or keep it completely offline and run it on your own Mac, even with the Wi-Fi off.</p>
+        <div class="chap-head"><span class="num" aria-hidden="true">02</span><span class="tab">Bring your own AI</span></div>
+        <h3>Pick your AI. <mark>Your notes stay yours.</mark></h3>
+        <p>Sign in with Claude, ChatGPT, or Google. No keys, no setup. Switch your AI any time in Settings. Or stay on your own Mac with the free Ollama app, even with the Wi-Fi off. The Ollama app reads and answers; changing a note takes Claude, ChatGPT or Gemini. Notes the AI reads go to that AI over the internet. With the free Ollama app, no note leaves your Mac.</p>
       </div>
-      <div class="signin">
+      <figure class="si-fig"><div class="signin">
         <div class="si-head">🔥 <b>Ember</b></div>
         <h3>How would you like Ember to think?</h3>
         <p class="si-sub">Sign in with an account you already have. No keys, no setup.</p>
-        <div class="si-row"><span class="si-ico" style="background:#E8632A"></span>
-          <div class="si-t"><b>Sign in with Claude</b> <span class="tag">Recommended</span><br><span>Uses your Claude plan</span></div>
-          <span class="si-ok">✓ Connected</span></div>
-        <div class="si-row"><span class="si-ico" style="background:#1A1712"></span>
-          <div class="si-t"><b>Sign in with ChatGPT</b><br><span>Uses your ChatGPT plan</span></div>
-          <span class="si-ok">✓ Connected</span></div>
-        <div class="si-row"><span class="si-ico" style="background:#3B6EF5"></span>
-          <div class="si-t"><b>Sign in with Google</b><br><span>Any Google account</span></div>
-          <span class="si-ok">✓ Connected</span></div>
-        <div class="si-row priv"><span class="si-ico">💻</span>
-          <div class="si-t"><b>Stay private, only this Mac</b><br><span>No account, no cloud. Answers on your Mac, even with the Wi-Fi off.</span></div></div>
-        <button class="si-btn">Start using Ember</button>
+        <div class="si-row"><span class="si-ico" style="background:#E8632A"></span><div class="si-t"><b>Sign in with Claude</b> <span class="tag">Recommended</span><br><span>Uses your Claude Pro or Max plan</span></div></div>
+        <div class="si-row"><span class="si-ico" style="background:#1A1712"></span><div class="si-t"><b>Sign in with ChatGPT</b><br><span>Uses your ChatGPT Plus or Pro plan</span></div></div>
+        <div class="si-row"><span class="si-ico" style="background:#3B6EF5"></span><div class="si-t"><b>Sign in with Google</b><br><span>Works with any Google account. The first sign-in happens in the Shell tab, two minutes, once.</span></div></div>
+        <div class="si-row"><span class="si-ico">💻</span><div class="si-t"><b>Stay private, only this Mac</b><br><span>No account, no cloud. The free Ollama app answers on this Mac, even with Wi-Fi off.</span></div></div>
+        <button class="si-btn" type="button" tabindex="-1">Start using Ember</button>
+      </div><figcaption class="layers-cap">A drawing of the screen where you pick the AI Ember uses.</figcaption></figure>
+    </div>
+    <div class="chat-pic reveal"><figure class="snap"><img src="assets/chat-light.jpg" srcset="assets/chat-light.jpg 1440w, assets/chat-light@2x.jpg 2880w" sizes="(max-width: 760px) 92vw, 1040px" width="1440" height="900" alt="A chat can sit beside the note you are writing" loading="lazy" decoding="async"></figure></div>
+  </div>
+</section>
+
+<section class="free" id="free">
+  <div class="wrap center-text">
+    <div class="free-card reveal">
+      <div class="free-zero" aria-hidden="true">$0</div>
+      <h2>The notebook is free.</h2>
+      <p class="free-line">Bring the AI you already have: sign in with <i class="fcw"><b class="fc f-claude">Claude</b><i class="fp">,</i></i> <i class="fcw"><b class="fc f-chatgpt">ChatGPT</b></i> or <i class="fcw"><b class="fc f-gemini">Google</b><i class="fp">,</i></i> or use <i class="fcw"><b class="fc f-ollama">the free Ollama app</b><i class="fp">.</i></i> Ember adds no AI bill of its own.</p>
+      <svg class="doodle dd-page" viewBox="0 0 220 140" aria-hidden="true" focusable="false"><g fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M12 128C70 125 150 125 208 129" stroke-width="2.3" opacity=".35"/><g transform="translate(46 70) scale(0.62)" stroke-width="3.71"><path d="M -28 92C-28 58-16 32 0 32s28 26 28 60z" style="fill:var(--sky)"/><path d="M -9 35q9 9 18 0"/><path d="M -6 14h12v21h-12z" style="fill:var(--card)"/><path d="M -17 2c-6-1-7 9 0 9" style="fill:var(--card)"/><path d="M1-19c11 0 18 8 18 19s-7 19-18 19-19-8-19-19 8-19 19-19z" style="fill:var(--card)"/><path d="M -19 1c-2-14 9-24 21-23 12 1 19 9 17 19-5-6-12-8-20-7-7 1-13 4-18 11z" style="fill:var(--ink)"/><circle cx="2" cy="3" r="2" style="fill:var(--ink)" stroke="none"/><circle cx="10" cy="3" r="2" style="fill:var(--ink)" stroke="none"/><path d="M2 10q4 4 8-1"/><circle cx="-6" cy="9" r="3.2" style="fill:var(--pink)" stroke="none" opacity=".8"/><circle cx="15" cy="8" r="2.4" style="fill:var(--pink)" stroke="none" opacity=".8"/></g><g transform="translate(174 70) scale(0.62)" stroke-width="3.71"><path d="M -6 20h12v18h-12z" style="fill:var(--card)"/><path d="M -26 37h52c5 0 8 3 8 8v47h-68v-47c0-5 3-8 8-8z" style="fill:var(--lilac)"/><circle cx="0" cy="62" r="5.5" style="fill:var(--flame-3)"/><path d="M -24-7h-6v14h6zM24-7h6v14h-6z" style="fill:var(--mint)"/><path d="M -14-21h28c6 0 10 4 10 10v22c0 6-4 10-10 10h-28c-6 0-10-4-10-10v-22c0-6 4-10 10-10z" style="fill:var(--mint)"/><path d="M0-21v-10"/><circle cx="0" cy="-35" r="5" style="fill:var(--flame)"/><path d="M -11-12h20c4 0 7 3 7 7v10c0 4-3 7-7 7h-20c-4 0-7-3-7-7v-10c0-4 3-7 7-7z" style="fill:var(--card)"/><circle cx="-8" cy="-2" r="2.3" style="fill:var(--ink)" stroke="none"/><circle cx="0" cy="-2" r="2.3" style="fill:var(--ink)" stroke="none"/><path d="M -10 4q4 4 9 0"/></g><path d="M84 66l50-5 5 50-50 5z" style="fill:var(--card)" stroke-width="2.3"/><path d="M91 93l39-4-1-9-39 4z" style="fill:var(--marker)" stroke="none"/><path d="M92 77l32-3M93 88l35-3.5M94 99l24-2.4" stroke-width="2.3" opacity=".55"/><path d="M58 98c10 4 20 5 29 3" stroke-width="2.3"/><circle cx="88" cy="101" r="3.6" style="fill:var(--card)" stroke-width="2.3"/><path d="M158 101c-8-3-16-8-25-12" stroke-width="2.3"/><circle cx="131" cy="88" r="3.6" style="fill:var(--mint)" stroke-width="2.3"/><path d="M110 34Q111.08 38.92 116 40Q111.08 41.08 110 46Q108.92 41.08 104 40Q108.92 38.92 110 34z" style="fill:var(--flame)" stroke="none"/><path d="M125 23Q125.72 26.28 129 27Q125.72 27.72 125 31Q124.28 27.72 121 27Q124.28 26.28 125 23z" style="fill:var(--flame-2)" stroke="none"/><path d="M96 25.5Q96.63 28.37 99.5 29Q96.63 29.63 96 32.5Q95.37 29.63 92.5 29Q95.37 28.37 96 25.5z" style="fill:var(--sky-ink)" stroke="none"/></g></svg>
+    </div>
+  </div>
+</section>
+
+<section class="cmp" id="compare">
+  <div class="wrap">
+    <div class="cmp-grid reveal">
+      <div class="cmp-col cmp-them"><h3>A notebook that sells its own AI</h3><ul><li>Its AI: paid on top</li><li>Already paying for Claude or ChatGPT: you pay twice</li></ul></div>
+      <div class="cmp-col cmp-us"><h3>Ember</h3><ul><li>The AI plan you already have</li><li>You pay once</li></ul></div>
+    </div>
+  </div>
+</section>
+
+<section class="band" id="how">
+  <div class="wrap">
+    <div class="center-text reveal">
+      <div class="chap-head center"><span class="num" aria-hidden="true">03</span><span class="tab">How it works</span></div>
+      <h2>What the AI is given, and what you keep.</h2>
+      <p class="lead">An AI can only read what it is sent. Here is what Ember sends, and what stays with you.</p>
+    </div>
+    <figure class="how-fig reveal">
+      <div class="how-draw">
+        <ul class="hd-in"><li class="hd-chip"><span class="hd-ico" aria-hidden="true"><svg viewBox="0 0 32 32" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 7h20a3 3 0 0 1 3 3v9a3 3 0 0 1-3 3H15l-6 5v-5H6a3 3 0 0 1-3-3v-9a3 3 0 0 1 3-3z"/><path d="M13.6 12.2a2.5 2.5 0 1 1 3.6 2.2c-.8.4-1.2.9-1.2 1.8"/><path d="M16 19.4v.1"/></svg></span><span>Your question</span></li><li class="hd-chip"><span class="hd-ico" aria-hidden="true"><svg viewBox="0 0 32 32" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><circle cx="16" cy="11" r="5"/><path d="M6.5 27c1.5-5.5 5-8 9.5-8s8 2.5 9.5 8"/></svg></span><span>About You</span></li><li class="hd-chip"><span class="hd-ico" aria-hidden="true"><svg viewBox="0 0 32 32" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><rect x="10" y="4" width="16" height="20" rx="3"/><path d="M6 9v16a3 3 0 0 0 3 3h12"/><path d="M14 10h8M14 14h8M14 18h5"/></svg></span><span>The notes you pick</span></li></ul>
+        <span class="hd-arrow" aria-hidden="true"><svg viewBox="0 0 48 24" width="44" height="22" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M3 13c10-3 24-3 39-1"/><path d="M34 5l8 7-8 7"/></svg></span>
+        <div class="hd-ai"><span class="hd-ico" aria-hidden="true"><svg viewBox="0 0 32 32" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="14" height="14" rx="3"/><path d="M13 9V5M19 9V5M13 27v-4M19 27v-4M9 13H5M9 19H5M27 13h-4M27 19h-4"/><path d="M14 16h4"/></svg></span><span>The AI you signed into</span></div>
+        <span class="hd-arrow" aria-hidden="true"><svg viewBox="0 0 48 24" width="44" height="22" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M3 13c10-3 24-3 39-1"/><path d="M34 5l8 7-8 7"/></svg></span>
+        <div class="hd-out"><span class="hd-ico" aria-hidden="true"><svg viewBox="0 0 32 32" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><rect x="7" y="4" width="18" height="24" rx="3"/><path d="M11 10h10M11 14h10M11 18h10M11 22h5"/></svg></span><span>The answer</span></div>
+        <div class="hd-folder"><span class="hd-ico" aria-hidden="true"><svg viewBox="0 0 32 32" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 9a3 3 0 0 1 3-3h6l3 3h9a3 3 0 0 1 3 3v11a3 3 0 0 1-3 3H7a3 3 0 0 1-3-3z"/></svg></span><span>Your folder stays on your Mac</span></div>
+      </div>
+      <figcaption class="layers-cap">A drawing of the main things Ember sends.</figcaption>
+    </figure>
+  </div>
+</section>
+
+<section id="files">
+  <div class="wrap">
+    <div class="feat rev reveal">
+      <div class="feat-text">
+        <div class="chap-head"><span class="num" aria-hidden="true">04</span><span class="tab">It is all just files</span></div>
+        <h2>The notes the AI reads are files you own.</h2>
+        <p class="lead">Your notes are plain Markdown files on your Mac, and so is every chat. Open them in any editor, back them up, or read them ten years from now. What Ember's chat is told about you is one note, About You, that you can read and change. Walk away whenever you want. <mark>It was always yours.</mark></p>
+      </div>
+      <svg class="sketch" viewBox="0 0 420 300" aria-hidden="true">
+  <g fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M150 52l92-6 4 70-92 6z" style="fill:var(--card)"/><path d="M166 70l58-3M167 86l62-4M168 102l40-2" opacity=".55"/>
+    <path d="M232 40l90 12-8 70-90-12z" style="fill:var(--card)"/><path d="M246 64l56 7M244 80l60 8M243 96l38 5" opacity=".55"/>
+    <path d="M96 66l84 4-4 64-84-4z" style="fill:var(--card)"/><path d="M108 86l54 3M107 102l58 2M106 118l36 2" opacity=".55"/>
+    <path d="M48 118c0-10 6-16 16-16h82c8 0 12 4 16 10l10 16h182c10 0 16 6 16 16l-6 112c0 10-6 16-16 16H66c-10 0-16-6-16-16z" style="fill:var(--paper-2)"/>
+  </g>
+  <path d="M206 186c10-22 22-36 18-56 14 12 26 32 22 54-2 16-14 26-24 26s-22-8-16-24z" style="fill:var(--flame)"/>
+  <path d="M220 172c4-8 8-14 6-22 6 6 10 14 8 24-1 8-6 12-11 12s-8-6-3-14z" style="fill:var(--flame-3)"/>
+</svg>
+    </div>
+  </div>
+</section>
+
+<section class="band" id="new">
+  <div class="wrap">
+    <div class="chap-head reveal"><span class="num" aria-hidden="true">05</span><span class="tab">New in Ember 0.59</span></div>
+    <h2 class="reveal">A new writing room, with the <mark>AI inside it.</mark></h2>
+    <p class="lead reveal">Write in blocks and type / for any kind of block. Press Space on an empty line and the AI writes there.</p>
+    <p class="lead reveal"><a href="https://github.com/embernotebook/ember/releases/latest">Everything that's new in 0.59</a></p>
+    <div class="pic-rows">
+      <div class="pic-row left reveal">
+        <div class="pic-col"><figure class="snap"><img src="assets/room-light.jpg" srcset="assets/room-light.jpg 1440w, assets/room-light@2x.jpg 2880w" sizes="(max-width: 760px) 92vw, 1040px" width="1440" height="900" alt="An eating plan as Ember draws it: a goal callout, a meals table, headings and training ticks." loading="lazy" decoding="async"></figure></div>
+        <div class="note-col"><span class="small-num" aria-hidden="true"></span><p class="hand-note">An eating plan as Ember draws it: a goal callout, a meals table, headings and training ticks.</p><svg class="doodle-arrow" viewBox="0 0 120 90" aria-hidden="true"><path d="M110 6C96 30 70 46 40 58s-22 18-28 26" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round"/><path d="M8 66l4 19 18-7" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
       </div>
     </div>
   </div>
 </section>
 
-<!-- LOCK -->
-<section>
+<section id="canvas">
   <div class="wrap">
-    <div class="lock reveal">
-      <div class="glow"></div>
-      <div class="ico">🔒</div>
-      <h2>Lock a folder. It stays private.</h2>
-      <p>Lock the folders that are just for you and the AI goes blind to them. It cannot read, search, or answer from anything inside. Nothing watches. Ember knows only what you told it.</p>
+    <div class="feat reveal">
+      <div class="feat-text">
+        <div class="chap-head"><span class="num" aria-hidden="true">06</span><span class="tab">See it your way</span></div>
+        <h3>A canvas for your thinking.</h3>
+        <p>Notes, blocks, and a mind map on one open canvas. No plugins to install, no setup to learn.</p>
+      </div>
+      <figure class="snap"><img src="assets/canvas-kiln-light.jpg" srcset="assets/canvas-kiln-light.jpg 1440w, assets/canvas-kiln-light@2x.jpg 2880w" sizes="(max-width: 760px) 92vw, 1040px" width="1440" height="900" alt="Ember's open canvas with note cards, folder cards and its mind map" loading="lazy" decoding="async"></figure>
     </div>
   </div>
 </section>
 
-<!-- FILES / NO LOCK-IN -->
-<section class="band">
+<section class="band" id="next">
   <div class="wrap">
-    <div class="sec-head center reveal">
-      <div class="kicker">It is all just files</div>
-      <h2>The memory is the folder.</h2>
-      <p class="lead">Everything Ember keeps is a plain Markdown file on your Mac. Open it in any editor, back it up, or read it ten years from now. Your AI's memory is a file you can read. Walk away whenever you want. It was always yours.</p>
+    <div class="center-text reveal">
+      <div class="chap-head center"><span class="tab">Coming next</span></div>
+      <p class="next-sub">Ember will plug into the apps you already use through connectors, built on MCP, the open standard other AI apps use.</p>
     </div>
+    <div class="next-grid two reveal">
+        <div class="next-card next-list">
+          <div class="conn-top"><h3>Ember Agents</h3><span class="next-mark">Coming soon</span></div>
+          <p class="agent-lead">Name a terminal tab today. Next, an agent will work in it from the notes you give it, and act only on your yes.</p>
+          <ul class="agent-list">
+            <li class="agent-item"><span class="conn-tile" aria-hidden="true"><svg viewBox="0 0 32 32" width="26" height="26" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><rect x="7" y="6" width="18" height="22" rx="3.5"/><path d="M12 6V4h8v2"/><path d="M11.5 14.5l2.2 2.2 4.3-4.3"/><path d="M11.5 22h9"/></svg></span><span class="conn-t"><b>Planner</b><span>Will draft your day from your notes and calendar.</span></span></li>
+            <li class="agent-item"><span class="conn-tile" aria-hidden="true"><svg viewBox="0 0 32 32" width="26" height="26" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M3.5 16h3.5M11.5 16h9M25 16h3.5"/><rect x="7" y="9.5" width="4.5" height="13" rx="1.6"/><rect x="20.5" y="9.5" width="4.5" height="13" rx="1.6"/></svg></span><span class="conn-t"><b>Coach</b><span>Will check your workouts and meals against your plan.</span></span></li>
+            <li class="agent-item"><span class="conn-tile" aria-hidden="true"><svg viewBox="0 0 32 32" width="26" height="26" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="7" width="24" height="18" rx="3.5"/><path d="M9 13l4 3-4 3M15.5 20h7"/></svg></span><span class="conn-t"><b>Build</b><span>Will take your project's next step in the terminal.</span></span></li>
+          </ul>
+        </div>
+        <div class="next-card next-list">
+          <div class="conn-top"><h3>Connectors</h3><span class="next-mark">Coming soon</span></div>
+          <ul class="conn-list">
+            <li class="conn-item"><span class="conn-tile" aria-hidden="true"><svg viewBox="0 0 32 32" width="26" height="26" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><rect x="5" y="7" width="22" height="20" rx="4"/><path d="M5 13h22M11 4.5v5M21 4.5v5"/><path d="M10.5 18.5h.01M16 18.5h.01M21.5 18.5h.01M10.5 23h.01M16 23h.01" stroke-width="3.2"/></svg></span><span class="conn-t"><b>Google Calendar</b><span>Your day will sit beside your notes.</span></span><span class="conn-plus" aria-hidden="true"><svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></svg></span></li>
+            <li class="conn-item"><span class="conn-tile" aria-hidden="true"><svg viewBox="0 0 32 32" width="26" height="26" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="8" width="24" height="17" rx="3.5"/><path d="M5.5 10.5l10.5 8 10.5-8"/></svg></span><span class="conn-t"><b>Gmail</b><span>Nothing will be sent without your yes.</span></span><span class="conn-plus" aria-hidden="true"><svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></svg></span></li>
+          </ul>
+          <p class="conn-more">More connectors as they come.</p>
+        </div>
+    </div>
+    <figure class="layers reveal"><svg class="sketch layers-sketch" viewBox="0 0 900 400" role="img" aria-label="Coming soon. Your notes stay underneath. Ember Agents, named by you, read and write on top, and your phone says yes.">
+  <g fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M40 318c272-6 548-6 820 1l-2 62c-272 4-546 4-818-1z" style="fill:var(--paper-2)"/>
+    <path d="M82 336h62l8 10h70v24H82zM262 334h62l8 10h70v26H262zM442 336h62l8 10h70v24H442zM622 334h62l8 10h70v26H622z" style="fill:var(--card)"/>
+    <path d="M120 128c150-4 300-4 448 1l-2 152c-148 4-298 4-446-1z" style="fill:var(--card)"/>
+    <path d="M152 236c118-2 236-2 352 0l-1 30c-117 2-234 2-351 0z" stroke-dasharray="7 6"/>
+    <path d="M688 104c40-2 78-2 116 0 8 0 13 6 13 13l-2 182c0 8-6 13-13 13-38 2-76 2-114 0-8 0-13-6-13-13l1-182c0-7 5-13 12-13z" style="fill:var(--card)"/>
+    <path d="M730 118h32" opacity=".6"/>
+  </g>
+  <g fill="none" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" style="stroke:var(--flame)">
+    <path d="M222 286c0 10 0 18 1 26M216 304l7 9 7-9" /><path d="M344 312c0-10 0-18-1-26M337 294l6-9 7 9"/>
+    <path d="M466 286c0 10 0 18 1 26M460 304l7 9 7-9"/>
+    <path d="M572 200c36-2 72-6 106-14M664 178l15 7-11 12"/>
+  </g>
+  <g font-weight="700" font-size="21" fill="currentColor">
+    <text x="160" y="170">🗓️ Planner</text><text x="160" y="204">🏋️ Coach</text><text x="372" y="170">🚀 Build</text>
+    <text x="168" y="258" font-weight="500" opacity=".7">Type here</text>
+    <text x="96" y="366" font-size="18">Your notes</text>
+  </g>
+  <rect x="704" y="214" width="84" height="34" rx="17" style="fill:var(--flame)"/>
+  <text x="746" y="237" text-anchor="middle" font-weight="800" font-size="17" fill="#fff">Yes</text>
+  <rect x="704" y="258" width="84" height="34" rx="17" fill="none" stroke="currentColor" stroke-width="2.2"/>
+  <text x="746" y="281" text-anchor="middle" font-weight="700" font-size="17" fill="currentColor">No</text>
+  <g transform="rotate(-4 300 58)">
+    <rect x="207" y="30" width="206" height="50" rx="10" stroke="currentColor" stroke-width="2.2" stroke-dasharray="8 5" style="fill:var(--sky)"/>
+    <text x="310" y="63" text-anchor="middle" font-weight="800" font-size="20" class="sk-mark">Coming soon</text>
+  </g>
+</svg><figcaption class="layers-cap">Coming soon. Your notes stay underneath. Ember Agents, named by you, read and write on top, and your phone says yes.</figcaption></figure>
   </div>
 </section>
 
-<!-- QUOTE -->
-<section>
+<section id="quote">
   <div class="wrap">
     <div class="quote reveal">
-      <p>Every AI guesses who you are. Ember is the place where it <span class="em">finally knows you,</span> because you told it once.</p>
+      <svg class="doodle dd-note" viewBox="0 0 210 140" aria-hidden="true" focusable="false"><g fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M10 128C70 125 140 125 200 129" stroke-width="2.3" opacity=".35"/><g transform="translate(44 72) scale(0.62)" stroke-width="3.71"><path d="M -28 92C-28 58-16 32 0 32s28 26 28 60z" style="fill:var(--sky)"/><path d="M -9 35q9 9 18 0"/><path d="M -6 14h12v21h-12z" style="fill:var(--card)"/><path d="M -17 2c-6-1-7 9 0 9" style="fill:var(--card)"/><path d="M1-19c11 0 18 8 18 19s-7 19-18 19-19-8-19-19 8-19 19-19z" style="fill:var(--card)"/><path d="M -19 1c-2-14 9-24 21-23 12 1 19 9 17 19-5-6-12-8-20-7-7 1-13 4-18 11z" style="fill:var(--ink)"/><circle cx="2" cy="3" r="2" style="fill:var(--ink)" stroke="none"/><circle cx="10" cy="3" r="2" style="fill:var(--ink)" stroke="none"/><path d="M2 10q4 4 8-1"/><circle cx="-6" cy="9" r="3.2" style="fill:var(--pink)" stroke="none" opacity=".8"/><circle cx="15" cy="8" r="2.4" style="fill:var(--pink)" stroke="none" opacity=".8"/></g><g transform="translate(166 72) scale(0.62)" stroke-width="3.71"><path d="M -6 20h12v18h-12z" style="fill:var(--card)"/><path d="M -26 37h52c5 0 8 3 8 8v47h-68v-47c0-5 3-8 8-8z" style="fill:var(--lilac)"/><circle cx="0" cy="62" r="5.5" style="fill:var(--flame-3)"/><path d="M -24-7h-6v14h6zM24-7h6v14h-6z" style="fill:var(--mint)"/><path d="M -14-21h28c6 0 10 4 10 10v22c0 6-4 10-10 10h-28c-6 0-10-4-10-10v-22c0-6 4-10 10-10z" style="fill:var(--mint)"/><path d="M0-21v-10"/><circle cx="0" cy="-35" r="5" style="fill:var(--flame)"/><path d="M -11-12h20c4 0 7 3 7 7v10c0 4-3 7-7 7h-20c-4 0-7-3-7-7v-10c0-4 3-7 7-7z" style="fill:var(--card)"/><path d="M -12-2q2-4.5 4 0M -3-2q2-4.5 4 0"/><path d="M -10 4q4 4 9 0"/></g><path d="M57 100c11 2 23 1 35-2" stroke-width="2.3"/><path d="M148 103c-8-3-18-5-27-7" stroke-width="2.3"/><path d="M92 84l27-3 3 29-27 3z" style="fill:var(--card)" stroke-width="2.3"/><path d="M107 100C98.5 95.5 101.5 87.5 107 92.75C112.5 87.5 115.5 95.5 107 100z" style="fill:var(--flame)" stroke="none"/><path d="M98 104l17-1.8" stroke-width="2.3" opacity=".55"/><circle cx="93" cy="98" r="3.6" style="fill:var(--card)" stroke-width="2.3"/><circle cx="120" cy="96" r="3.6" style="fill:var(--mint)" stroke-width="2.3"/><path d="M104 56C93.8 50.6 97.4 41 104 47.3C110.6 41 114.2 50.6 104 56z" style="fill:var(--pink)" stroke="none"/><path d="M120 40C113.2 36.4 115.6 30 120 34.2C124.4 30 126.8 36.4 120 40z" style="fill:var(--flame-2)" stroke="none"/><path d="M90 36.5Q90.63 39.37 93.5 40Q90.63 40.63 90 43.5Q89.37 40.63 86.5 40Q89.37 39.37 90 36.5z" style="fill:var(--sky-ink)" stroke="none"/><path d="M128 51Q128.54 53.46 131 54Q128.54 54.54 128 57Q127.46 54.54 125 54Q127.46 53.46 128 51z" style="fill:var(--flame)" stroke="none"/></g></svg>
+      <p>You do not have to give one AI company everything about you. Your notes stay in a folder on your Mac. Your notes reach an AI only when you ask for something, or when Ember suggests your next words as you type. <span class="em">Ember has no ads and does not track you.</span></p>
     </div>
   </div>
 </section>
 
-<!-- FOUNDER NOTE -->
 <section>
   <div class="wrap">
     <div class="coffee reveal">
-      <div class="coffee-ico">☕</div>
+      <svg class="doodle dd-cheers" viewBox="0 0 180 119" aria-hidden="true" focusable="false"><g fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><g transform="translate(40 66) scale(0.56)" stroke-width="4.11"><path d="M -28 92C-28 58-16 32 0 32s28 26 28 60z" style="fill:var(--sky)"/><path d="M -9 35q9 9 18 0"/><path d="M -6 14h12v21h-12z" style="fill:var(--card)"/><path d="M -17 2c-6-1-7 9 0 9" style="fill:var(--card)"/><path d="M1-19c11 0 18 8 18 19s-7 19-18 19-19-8-19-19 8-19 19-19z" style="fill:var(--card)"/><path d="M -19 1c-2-14 9-24 21-23 12 1 19 9 17 19-5-6-12-8-20-7-7 1-13 4-18 11z" style="fill:var(--ink)"/><path d="M0 2q2-4.5 4 0M9 2q2-4.5 4 0"/><path d="M1 9q4.5 5.5 9-1"/><circle cx="-6" cy="9" r="3.2" style="fill:var(--pink)" stroke="none" opacity=".8"/><circle cx="15" cy="8" r="2.4" style="fill:var(--pink)" stroke="none" opacity=".8"/></g><g transform="translate(140 66) scale(0.56)" stroke-width="4.11"><path d="M -6 20h12v18h-12z" style="fill:var(--card)"/><path d="M -26 37h52c5 0 8 3 8 8v47h-68v-47c0-5 3-8 8-8z" style="fill:var(--lilac)"/><circle cx="0" cy="62" r="5.5" style="fill:var(--flame-3)"/><path d="M -24-7h-6v14h6zM24-7h6v14h-6z" style="fill:var(--mint)"/><path d="M -14-21h28c6 0 10 4 10 10v22c0 6-4 10-10 10h-28c-6 0-10-4-10-10v-22c0-6 4-10 10-10z" style="fill:var(--mint)"/><path d="M0-21v-10"/><circle cx="0" cy="-35" r="5" style="fill:var(--flame)"/><path d="M -11-12h20c4 0 7 3 7 7v10c0 4-3 7-7 7h-20c-4 0-7-3-7-7v-10c0-4 3-7 7-7z" style="fill:var(--card)"/><path d="M -12-2q2-4.5 4 0M -3-2q2-4.5 4 0"/><path d="M -10 4q4 4 9 0"/></g><path d="M50 91c8-9 17-20 27-28" stroke-width="2.3"/><path d="M125 94c-7-9-15-21-23-30" stroke-width="2.3"/><g transform="translate(82 56) rotate(14)"><path d="M -7-9h14l-1.5 17h-11z" style="fill:var(--flame-soft)"/><path d="M -7-5c-5 0-5 7 1 7"/></g><g transform="translate(98 56) rotate(-14)"><path d="M -7-9h14l-1.5 17h-11z" style="fill:var(--card)"/><path d="M7-5c5 0 5 7-1 7"/></g><path d="M90 38v-7M82 40l-4-5M98 40l4-5" stroke-width="2.3" style="stroke:var(--flame)"/></g></svg>
+      <svg class="cup" viewBox="0 0 80 70" aria-hidden="true"><g fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M12 26h44l-4 30c-1 6-5 9-11 9H27c-6 0-10-3-11-9z"/><path d="M56 32h6c6 0 9 4 9 9s-4 9-10 9h-6"/></g><path d="M26 18c-4-5 4-8 0-13M36 18c-4-5 4-8 0-13M46 18c-4-5 4-8 0-13" fill="none" stroke-width="2.6" stroke-linecap="round" style="stroke:var(--flame)"/></svg>
       <p class="coffee-note">I am building Ember on my own. If it earns a place on your Mac, a coffee keeps me going. No pressure at all, and thank you for trying it.</p>
       <p class="coffee-sign">Nabeel, the maker of Ember</p>
-      <a class="btn btn-coffee btn-lg" href="https://buymeacoffee.com/m.nabeel">☕ Buy me a coffee</a>
+      <a class="btn btn-flame btn-lg" href="https://buymeacoffee.com/m.nabeel">☕ Buy me a coffee</a>
     </div>
   </div>
 </section>
 
 <footer>
-  <div class="wrap">
-    <div class="foot-in">
-      <div class="foot-tag">You write. Ember remembers.</div>
-      <div class="foot-links">
-        <a href="https://github.com/embernotebook">GitHub</a>
-        <a href="https://discord.gg/5ThKWRp7kQ">Discord</a>
-        <a href="https://www.youtube.com/@embernotebook">YouTube</a>
-        <a href="mailto:embernotebook@outlook.com">Get help</a>
-      </div>
+  <div class="wrap foot-in">
+    <div class="foot-tag">A memory notebook for all your AI agents.</div>
+    <div class="foot-links">
+      <a href="https://github.com/embernotebook">GitHub</a>
+      <a href="https://discord.gg/5ThKWRp7kQ">Discord</a>
+      <a href="https://www.youtube.com/@embernotebook">YouTube</a>
+      <a href="mailto:embernotebook@outlook.com">Get help</a>
     </div>
   </div>
 </footer>
 
 <script>
-  var nav=document.getElementById('nav');
-  addEventListener('scroll',function(){nav.classList.toggle('scrolled',scrollY>10)});
-  var io=new IntersectionObserver(function(es){es.forEach(function(e){if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target)}})},{threshold:.12});
-  document.querySelectorAll('.reveal').forEach(function(el){io.observe(el)});
+var nav=document.getElementById('nav');
+addEventListener('scroll',function(){nav.classList.toggle('scrolled',scrollY>10)},{passive:true});
+if('IntersectionObserver' in window){
+  var show=function(es){es.forEach(function(e){if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target);tall.unobserve(e.target)}})};
+  var io=new IntersectionObserver(show,{threshold:.1});
+  // a block taller than half the screen fades in as its first lines enter, not after a tenth of it is on screen
+  var tall=new IntersectionObserver(show,{rootMargin:'0px 0px -48px 0px'});
+  document.querySelectorAll('.reveal').forEach(function(el){(el.offsetHeight>innerHeight/2?tall:io).observe(el)});
+}else{document.querySelectorAll('.reveal').forEach(function(el){el.classList.add('in')})}
+(function(){
+  var box=document.querySelector('.one-clip');if(!box)return;
+  var v=box.querySelector('video'),m=box.querySelector('.hl-media');
+  if(!v||!m||matchMedia('(prefers-reduced-motion: reduce)').matches||!('IntersectionObserver' in window))return;
+  var on=false;
+  function start(){if(!v.getAttribute('src')){v.preload='auto';v.src=v.dataset.src}
+    try{v.currentTime=0}catch(e){}var p=v.play();if(p&&p.catch)p.catch(function(){m.classList.remove('live')})}
+  v.addEventListener('playing',function(){m.classList.add('live')});
+  v.addEventListener('ended',function(){m.classList.remove('live')});
+  v.addEventListener('error',function(){m.classList.remove('live')});
+  new IntersectionObserver(function(es){var now=es[0].isIntersecting;
+    if(now&&!on&&!document.hidden){on=true;start()}
+    else if(!now&&on){on=false;if(!v.paused)v.pause();m.classList.remove('live')}},{threshold:.5}).observe(box);
+})();
 </script>
 </body>
 </html>

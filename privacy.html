@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Ember Privacy Policy</title>
-<meta name="description" content="How Ember handles your data. Short version: your notes stay on your Mac, and Ember never sees them.">
+<meta name="description" content="Here is what Ember sends, and what stays with you.">
 <link rel="icon" type="image/png" href="assets/ember-logo.png">
 <style>
   :root{--bg:#F4EEE3;--card:#FCFAF4;--ink:#221E18;--muted:#8B8371;--line:#E6DDCC;--ember:#D9622E;
@@ -29,45 +29,44 @@
 <div class="wrap">
   <a class="brand" href="/"><img src="assets/ember-logo.png" alt="Ember logo"><span>Ember</span></a>
   <h1>Privacy Policy</h1>
-  <p class="sub">Last updated September 8, 2026</p>
+  <p class="sub">Last updated October 30, 2026</p>
 
   <div class="card">
-    <p><strong>The short version.</strong> Ember is a notebook app that runs on your own Mac. Your notes are plain files in a folder you choose. We do not run servers that hold your notes, we do not collect analytics, and we do not sell or share anything. When you connect an AI or a Google account, Ember talks to that service directly from your Mac using your own account, and the data goes only where you point it.</p>
+    <p>Ember is a notebook of plain files on your Mac. The AI you sign in with reads the notes you hand it, and writes there.</p>
+    <p>Your notes stay in a folder on your Mac. Your notes reach an AI only when you ask for something, or when Ember suggests your next words as you type. Ember has no ads and does not track you.</p>
   </div>
 
-  <h2>What Ember stores</h2>
-  <ul>
-    <li>Your notes, canvases, and settings live on your Mac, in your vault folder and in your Mac's own Application Support folder.</li>
-    <li>Ember does not create an account for you and does not send your notes to us. There is no Ember server that receives them.</li>
-  </ul>
+  <h2>Your notes</h2>
+  <p>Your notes are plain Markdown files on your Mac, and so is every chat. Open them in any editor, back them up, or read them ten years from now. What Ember's chat is told about you is one note, About You, that you can read and change.</p>
 
-  <h2>AI providers you connect</h2>
+  <h2>The AI you sign in with</h2>
   <ul>
-    <li>Ember can use an AI account that you bring (for example Anthropic, Google, or OpenAI) or a model running on your own machine.</li>
-    <li>When you ask Ember a question, the text needed to answer it is sent from your Mac to the provider you chose, under your own account and that provider's privacy policy. Nothing is sent to us.</li>
-    <li>Your keys and sign-ins stay on your Mac (in the macOS Keychain or in files only your user can read).</li>
-  </ul>
-
-  <h2>Google Calendar and Google Tasks</h2>
-  <p>If you connect a Google account, Ember uses Google's official sign-in to read and update the calendars and task lists in that account so that your schedule and to-dos can appear in your notebook.</p>
-  <ul>
-    <li>Ember only requests the Calendar and Tasks permissions it needs for that job.</li>
-    <li>The data Google returns is used on your Mac to show and update your own events and tasks. It is not stored on any server of ours, not used for advertising, and not shared with anyone.</li>
-    <li>Ember's use of information received from Google APIs follows the <a href="https://developers.google.com/terms/api-services-user-data-policy" rel="noopener">Google API Services User Data Policy</a>, including the Limited Use requirements.</li>
-    <li>You can disconnect at any time by removing Ember from your Google account's <a href="https://myaccount.google.com/permissions" rel="noopener">third-party access</a> page, or by deleting the saved sign-in on your Mac. Disconnecting stops all access immediately.</li>
+    <li>Sign in with Claude, ChatGPT, or Google. No keys, no setup. Switch your AI any time in Settings. Or stay on your own Mac with the free Ollama app, even with the Wi-Fi off.</li>
+    <li>Drag a note into the chat and ask about it. Ember sends that note with your question.</li>
+    <li>Notes the AI reads go to that AI over the internet. With the free Ollama app, no note leaves your Mac.</li>
+    <li>Each sign-in is kept by that AI's own tool on your Mac. Those tools come from their own companies and run under their own privacy policies, which Ember does not control. A key you paste in Settings is kept in a file only you can read.</li>
+    <li>After a new chat's first answer, Ember also asks an AI to name that chat, once: the AI set for chat in Settings, which can be a different one from the AI you were chatting with. That request carries the first question and answer, your About You note, and any notes or canvas cards they bring up. With the free Ollama app as that AI, it stays on your Mac. There is no switch for it in this version.</li>
+    <li>With an API key in Settings, Ember also sends that AI the text before your cursor as you type, up to 2,000 characters, and parts of up to three related notes, to suggest your next few words. With a signed-in account and no key, that happens only when you ask for a suggestion yourself, for example with Control and Space. With the free Ollama app it stays on your Mac. You can turn it off in Settings, under Writing, Ghost suggestions.</li>
   </ul>
 
   <h2>Updates</h2>
-  <p>Ember checks one small text file on this website to learn whether a newer version exists. That check sends no personal information.</p>
+  <p>When Ember opens, and at most once a day after that, it checks one small file on this website to learn whether a newer version exists. The check sends nothing about you, but like any web request it carries your IP address. You can turn it off in Settings, under Updates.</p>
+
+  <h2>What else reaches the internet</h2>
+  <p>Ember has no analytics or tracking. Besides the AI you sign in with and the update check above, it reaches the internet only when you ask it to: to download an update, to install the AI's own app when you sign in, or to read a web page after you turn on web search.</p>
+
+  <h2>Coming next</h2>
+  <p>Ember will plug into the apps you already use through connectors, built on MCP, the open standard other AI apps use.</p>
+  <p>When Ember connects to Google Calendar, Gmail or any other Google service, Ember's use and transfer to any other app of information received from Google APIs will adhere to the <a href="https://developers.google.com/terms/api-services-user-data-policy" rel="noopener">Google API Services User Data Policy</a>, including the Limited Use requirements.</p>
 
   <h2>Children</h2>
   <p>Ember is not directed at children under 13 and does not knowingly collect information from them.</p>
 
   <h2>Changes to this policy</h2>
-  <p>If this policy changes, the new version will be posted on this page with a new date.</p>
+  <p>If this policy changes, the new version will be posted on this page with a new date at the top.</p>
 
   <h2>Contact</h2>
-  <p>Questions about privacy: <a href="mailto:nabeelshabbir87@gmail.com">nabeelshabbir87@gmail.com</a>.</p>
+  <p>Questions about privacy: <a href="mailto:embernotebook@outlook.com">embernotebook@outlook.com</a>.</p>
 
   <footer>Ember is built by Muhammad Nabeel. <a href="/">Back to embernotebook.com</a></footer>
 </div>
